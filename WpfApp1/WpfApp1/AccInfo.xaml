@@ -71,7 +71,7 @@
             </TextBlock>
             <Separator Margin="363,81,23,-81"/>
             <TextBlock  FontSize="20" TextAlignment="Right"  Margin="279,367,23,134" Foreground="DarkRed" Cursor="Hand">
-                    <Run Text="5000 RON"/>
+                    <Run x:Name="salaryTB" />
             </TextBlock>
             <Separator Margin="22,81,333,-81"/>
             <TextBlock  FontSize="20" TextAlignment="Left"  Margin="22,367,280,134" Foreground="DarkGreen" Cursor="Hand">

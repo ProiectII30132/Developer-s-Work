@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Sign Up" Height="800" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Sign Up" Height="700" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Triggers>
 
         <EventTrigger RoutedEvent="Loaded">
@@ -20,7 +20,7 @@
         </EventTrigger>
 
     </Window.Triggers>
-    <Grid Height="800" VerticalAlignment="Top">
+    <Grid Height="700" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="249*"/>
             <RowDefinition/>
@@ -36,28 +36,25 @@
             </Rectangle.Fill>
         </Rectangle>
         <Image Source="Assests/Logo.png" Height="266" VerticalAlignment="Top" Margin="35,57,35,0"/>
-        <Rectangle Width="280" Height="450" Fill="White" VerticalAlignment="Bottom" Margin="35,0,35,98" RadiusY="14.5" RadiusX="14.5">
+        <Rectangle Width="280" Height="350" Fill="White" VerticalAlignment="Bottom" Margin="35,0,35,98" RadiusY="14.5" RadiusX="14.5">
             <Rectangle.Effect>
                 <DropShadowEffect Color="#FFBBBBBB" BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1"/>
             </Rectangle.Effect>
         </Rectangle>
-        <Grid Width="280" Height="450" VerticalAlignment="Bottom" Margin="35,0,35,98">
+        <Grid Width="280" Height="350" VerticalAlignment="Bottom" Margin="35,0,35,98">
             <TextBlock Text="Sign Up"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18"/>
             <StackPanel VerticalAlignment="Center" Margin="10">
-                <TextBox materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
-                <TextBox materialDesign:HintAssist.Hint="FirstName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
-                <TextBox materialDesign:HintAssist.Hint="LastName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
-                <PasswordBox materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="55"/>
-                <PasswordBox materialDesign:HintAssist.Hint="Reenter the Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="56"/>
-                <PasswordBox materialDesign:HintAssist.Hint="Admin Code" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="56"/>
+                <TextBox x:Name="emailTB" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
+                <TextBox x:Name="FirstNameTB" materialDesign:HintAssist.Hint="FirstName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
+                <TextBox x:Name="LastNameTB" materialDesign:HintAssist.Hint="LastName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
+                <PasswordBox x:Name="PassP" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="55"/>
+                <TextBox x:Name="SallaryTB" materialDesign:HintAssist.Hint="Salary" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="49"/>
 
             </StackPanel>
 
         </Grid>
         <Button Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,100,75.214" Content="Sing Up" Click="Button_Click"/>
-        <TextBlock PreviewMouseUp="loginTBlock_PreviewMouseUp" x:Name="loginTBlock" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="115,0,100,10" Foreground="Gray" Cursor="Hand">
-            Already have an account? <LineBreak/> Login here"
-        </TextBlock>
+        
         <Ellipse Fill="DarkRed" Height="10" Width="10" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,10" PreviewMouseLeftButtonUp="Ellipse_PreviewMouseLeftButtonUp" >
 
             <Ellipse.Effect>

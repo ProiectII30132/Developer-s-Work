@@ -47,7 +47,7 @@ namespace WpfApp1
                     List<Utilizator> utilizatori = new List<Utilizator>();
                     string body = "";
 
-                    myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Desginer-s_Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+                    myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
                     myCon.Open();
                     DataSet dataset = new DataSet();
                     SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [user]", myCon);
@@ -57,7 +57,8 @@ namespace WpfApp1
                         int admin = Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
                         String emailRead = dr.ItemArray.GetValue(1).ToString();
                         String passRead = dr.ItemArray.GetValue(2).ToString();
-                        utilizatori.Add(new Utilizator(emailRead, passRead, admin));
+                        double salary = Convert.ToDouble(dr.ItemArray.GetValue(4).ToString());
+                        utilizatori.Add(new Utilizator(emailRead, passRead, admin,salary));
 
                     }
                     myCon.Close();

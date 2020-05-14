@@ -36,7 +36,7 @@ namespace WpfApp1
             numeTB.Text = utilizator.nume;
             prenumeTB.Text = utilizator.prenume;
             salesTB.Text = "" + utilizator.salesNumber;
-
+            salaryTB.Text = "" + utilizator.salary;
         }
 
 

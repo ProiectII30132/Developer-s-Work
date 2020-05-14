@@ -57,7 +57,7 @@ public partial class MainWindow : Window
         List<Utilizator> utilizatori = new List<Utilizator>();
         string email = emailTextBox.Text;
         string pass = passwordPasswoerdBox.Password.ToString();
-        myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Desginer-s_Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+        myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
         myCon.Open();
 
         DataSet dataset = new DataSet();
@@ -79,11 +79,11 @@ public partial class MainWindow : Window
         dataAdapter.Fill(dataset, "[user]");
         foreach (DataRow dr in dataset.Tables["[user]"].Rows)
         {
-            int admin = Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
+            int admin = Convert.ToInt32(""+dr.ItemArray.GetValue(3));
             String emailRead = dr.ItemArray.GetValue(1).ToString();
             String passRead = dr.ItemArray.GetValue(2).ToString();
-            utilizatori.Add(new Utilizator(emailRead, passRead, admin));
-            
+            double salary = Convert.ToDouble(dr.ItemArray.GetValue(4).ToString());
+            utilizatori.Add(new Utilizator(emailRead, passRead, admin, salary));
         }
         myCon.Close();
         bool merge = false;
@@ -117,9 +117,7 @@ public partial class MainWindow : Window
 
     private void signUpTBlock_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
-        SignUp signup = new SignUp();
-        this.Close();
-        signup.Show();
+      
     }
 
     private void Ellipse_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

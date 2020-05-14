@@ -14,7 +14,9 @@ namespace WpfApp1
         public string nume { get; set; }
         public string prenume { get; set; }
         public int salesNumber { get; set; }
-        public Utilizator(string email, string pass, int isAdmin)
+        public double salary { get; set; }
+
+        public Utilizator(string email, string pass, int isAdmin, double slary)
         {
             this.email = email;
             this.pass = pass;
@@ -22,6 +24,7 @@ namespace WpfApp1
             this.nume = "";
             this.prenume = "";
             this.salesNumber = 0;
+            this.salary = slary;
         }
         public Utilizator(string email, string pass, int isAdmin, string nume, string prenume)
         {
@@ -31,6 +34,7 @@ namespace WpfApp1
             this.nume = nume;
             this.prenume = prenume;
             this.salesNumber = 0;
+
         }
         public Utilizator(string email, string pass, int isAdmin, string nume, string prenume,int sales)
         {
@@ -40,6 +44,7 @@ namespace WpfApp1
             this.nume = nume;
             this.prenume = prenume;
             this.salesNumber = sales;
+
         }
 
 
