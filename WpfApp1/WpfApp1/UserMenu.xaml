@@ -240,7 +240,7 @@
                 </Grid>
                 <Grid Grid.Column="1">
                     <TextBox x:Name="QSTextBox" TextChanged="TextBox_TextChanged" materialDesign:HintAssist.Hint="Quick Search" Height="40" Width="210"  HorizontalAlignment="Center" Margin="254,9,466,1"/>
-                    <Button x:Name="ApplyButton" Click="ApplyButton_Click" HorizontalAlignment="Right" Width="100" Content="Apply filters" Margin="0,0,20,0" />
+                    <Button x:Name="ApplyButton" Click="ApplyButton_Click" HorizontalAlignment="Right" Width="120" Content="Apply filters" Margin="0,0,20,0" />
                 </Grid>
 
                 <Grid HorizontalAlignment="Left" Width="170"  Margin="0,0,0,10" Grid.ColumnSpan="1" Grid.Row="1">
@@ -249,34 +249,34 @@
                             <StackPanel>
                                 <Separator/>
                                 <TextBlock Text="Price Range" HorizontalAlignment="Center" Margin="10" FontSize="18" Height="31" Width="110" />
-                                <RadioButton Content=" 4.000 - 10.000" Margin="0,5,0,0"/>
-                                <RadioButton Content=" 10.000 - 20.000" Margin="0,5,0,0"/>
-                                <RadioButton Content=" 20.000 - 30.000" Margin="0,5,0,0"/>
-                                <RadioButton Content=" 30.000 - 40.000" Margin="0,5,0,0"/>
-                                <RadioButton  Content=" > 40.000" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="prRB1" Content=" 4.000 - 10.000" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="prRB2" Content=" 10.000 - 20.000" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="prRB3" Content=" 20.000 - 30.000" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="prRB4" Content=" 30.000 - 40.000" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="prRB5" Content=" > 40.000" Margin="0,5,0,0"/>
                                 <TextBlock Text=" "/>
 
                             </StackPanel>
                             <StackPanel>
                                 <Separator/>
                                 <TextBlock Text="Fuel Type" HorizontalAlignment="Center" Margin="10" FontSize="18" Height="31" Width="110" />
-                                <RadioButton Content="Disel" Margin="0,5,0,0"/>
-                                <RadioButton Content="Petrol" Margin="0,5,0,0" />
+                                <RadioButton x:Name="ftRB1" Content="Diesel" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="ftRB2" Content="Petrol" Margin="0,5,0,0" />
                                 <TextBlock Text=" "/>
                             </StackPanel>
                             <StackPanel>
                                 <Separator/>
                                 <TextBlock Text="Horse Power" HorizontalAlignment="Center" Margin="10" FontSize="18" Height="31" Width="110" />
-                                <RadioButton Content=" 75 - 105" Margin="0,5,0,0" />
-                                <RadioButton Content=" 105 - 195" Margin="0,5,0,0" />
-                                <RadioButton Content=" > 180" Margin="0,5,0,0"/>
+                                <RadioButton x:Name="hpRB1" Content=" 75 - 105" Margin="0,5,0,0" />
+                                <RadioButton x:Name="hpRB2" Content=" 105 - 195" Margin="0,5,0,0" />
+                                <RadioButton x:Name="hpRB3"  Content=" > 195" Margin="0,5,0,0"/>
                                 <TextBlock Text=" "/>
                             </StackPanel>
                             <StackPanel>
                                 <Separator/>
                                 <TextBlock Text="Used Car" HorizontalAlignment="Center" Margin="10" FontSize="18" Height="31" Width="110" />
-                                <RadioButton Content=" Yes" Margin="0,5,0,0" />
-                                <RadioButton Content=" No " Margin="0,5,0,0" />
+                                <RadioButton x:Name="ucRB1" Content=" Yes" Margin="0,5,0,0" />
+                                <RadioButton x:Name="ucRB2" Content=" No " Margin="0,5,0,0" />
                                 <TextBlock Text=" "/>
                             </StackPanel>
 
@@ -286,24 +286,26 @@
                 <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF1F1F1" >
                     <StackPanel>
                         <StackPanel Margin="20 0">
-                            <ListBox x:Name="ListViewProducts" ItemsSource="{Binding Product}" PreviewMouseUp="ListViewProducts_PreviewMouseUp"
+                            <ListBox x:Name="ListViewProducts" ItemsSource="{Binding Masini}" PreviewMouseUp="ListViewProducts_PreviewMouseUp"
                                       ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      ScrollViewer.CanContentScroll="False" >
 
                                 <ListBox.ItemTemplate >
                                     <DataTemplate>
-                                        <Border Margin="10" Width="220" Height="220">
+                                        <Border Margin="10" Width="220" Height="270">
                                             <StackPanel>
                                                 <Border Width="210" Height="150" CornerRadius="5" Margin="5">
                                                     <Border.Effect>
                                                         <DropShadowEffect ShadowDepth="1"/>
                                                     </Border.Effect>
                                                     <Border.Background>
-                                                        <ImageBrush ImageSource="{Binding Image}"/>
+                                                        <ImageBrush ImageSource="{Binding URL[0]}"/>
                                                     </Border.Background>
                                                 </Border>
-                                                <TextBlock Margin="5" Text="{Binding Value, StringFormat={}{0:C}}" FontSize="17" FontFamily="Franklin Gothic Medium"/>
-                                                <TextBlock Margin="5 0" Text="{Binding Name}" FontSize="15"/>
+                                                <TextBlock Margin="5" Text="{Binding carPrice, StringFormat={}{0:C}}" FontSize="17" FontFamily="Franklin Gothic Medium"/>
+                                                <TextBlock Margin="5 0" Text="{Binding name}" FontSize="15"/>
+                                                <TextBlock Margin="5 0" Text="{Binding HorsePower}" FontSize="15"/>
+                                                <TextBlock Margin="5 0" Text="{Binding FuelType}" FontSize="15"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>

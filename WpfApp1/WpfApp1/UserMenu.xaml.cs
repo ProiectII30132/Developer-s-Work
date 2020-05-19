@@ -22,7 +22,9 @@ namespace WpfApp1
     /// </summary>
     public partial class UserMenu : Window
     {
-        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        // private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+
         private Utilizator utilizator;
         private List<Utilizator> dealers= new List<Utilizator>();
         public UserMenu(Utilizator utilizator)
@@ -179,25 +181,48 @@ namespace WpfApp1
            
         }
 
-        private List<ProductCars> GetProducts()
+        private List<Masini> GetMasini()
         {
-            return new List<ProductCars>()
+            List<Masini> masini = new List<Masini>();
+            myCon.Open();
+            try
             {
-                new ProductCars("Skoda ",4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("Dacia ", 4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("BMW ", 4000, "Assests/Skoda-Kamiq.png"),
-                new ProductCars("Skoda ",4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("Renault", 4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("Ford ", 4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("Ford ",4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("BMW", 4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("Dacia ", 4000, "Assests/Skoda-Kamiq.png"),
-                new ProductCars("Seat ",4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("ARO ", 4000,"Assests/Skoda-Kamiq.png"),
-                new ProductCars("DAC ", 4000,"Assests/Skoda-Kamiq.png"),
+                
+                DataSet dataset = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Car]", myCon);
+                dataAdapter.Fill(dataset, "[Car]");
+                foreach (DataRow dr in dataset.Tables["[Car]"].Rows)
+                {
+                    
+                    int id = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
+                    String make = dr.ItemArray.GetValue(1).ToString();
+                    String model = dr.ItemArray.GetValue(2).ToString();
+                    double price = Convert.ToDouble(dr.ItemArray.GetValue(3).ToString());
+                    int caryear = Convert.ToInt32(dr.ItemArray.GetValue(4).ToString());
+                    bool issold = Convert.ToBoolean(dr.ItemArray.GetValue(5).ToString());
+                    String[] url = dr.ItemArray.GetValue(6).ToString().Split(' ');
+                    int hp = Convert.ToInt32(dr.ItemArray.GetValue(7).ToString());
+                    String ft = dr.ItemArray.GetValue(8).ToString();
 
-            };
-    }
+                    List<String> img = new List<string>();
+                    for(int i = 0; i < url.Length; i++)
+                    {
+                        img.Add(url[i]);
+                    }
+                    masini.Add(new Masini(id, make, model, price, caryear, issold, img, hp, ft));
+
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            myCon.Close();
+
+            return masini;
+            
+        }
 
         private void CarText_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -213,11 +238,12 @@ namespace WpfApp1
             gridCarsImage.Visibility = Visibility.Visible;
             gridParking.Visibility = Visibility.Hidden;
             gridHome.Visibility = Visibility.Hidden;
+            gridDealerInfo.Visibility = Visibility.Hidden;
 
 
-            var products = GetProducts();
-            if (products.Count > 0)
-                ListViewProducts.ItemsSource = products;
+            var masini = GetMasini();
+            if (masini.Count > 0)
+                ListViewProducts.ItemsSource = masini;
             CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListViewProducts.ItemsSource);
             collectionView.Filter = UserFilter;
         }
@@ -251,7 +277,9 @@ namespace WpfApp1
 
         private void ListViewProducts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            ProductPrezentation product = new ProductPrezentation(utilizator);
+            Masini masina = (Masini)ListViewProducts.SelectedItem;
+            MessageBox.Show(masina.name);
+            ProductPrezentation product = new ProductPrezentation(utilizator,masina);
             product.Show();
             this.Close();
         }
@@ -270,9 +298,6 @@ namespace WpfApp1
             gridParking.Visibility = Visibility.Hidden;
             gridHome.Visibility = Visibility.Visible;
             gridDealerInfo.Visibility = Visibility.Hidden;
-
-
-
         }
 
         private void infoDealearItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -407,7 +432,161 @@ namespace WpfApp1
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
+            List<Masini> masini = GetMasini();
+            if (prRB1.IsChecked==true)
+            {
+                for(int i=0;i<masini.Count;i++)
+                {
+                    if(masini[i].carPrice>=4000 && masini[i].carPrice <= 10000)
+                    {
 
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+            if (prRB2.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].carPrice >= 10000 && masini[i].carPrice <= 20000)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+            if (prRB3.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].carPrice >= 20000 && masini[i].carPrice <= 30000)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+            if (prRB4.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].carPrice >= 30000 && masini[i].carPrice <= 40000)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+            if (prRB5.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].carPrice >= 40000)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (ftRB1.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].FuelType.Equals("Diesel"))
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (ftRB2.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].FuelType.Equals("Petrol"))
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (hpRB1.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].HorsePower>=75 && masini[i].HorsePower<=105)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (hpRB2.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].HorsePower > 105 && masini[i].HorsePower <= 195)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (hpRB3.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].HorsePower>195)
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                    }
+                }
+            }
+        
+
+            if (masini.Count > 0)
+            {
+                ListViewProducts.ItemsSource = masini;
+                CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListViewProducts.ItemsSource);
+                collectionView.Filter = UserFilter;
+            }
+            else MessageBox.Show("Empty list!");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

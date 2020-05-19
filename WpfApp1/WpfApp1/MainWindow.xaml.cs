@@ -57,10 +57,12 @@ public partial class MainWindow : Window
         List<Utilizator> utilizatori = new List<Utilizator>();
         string email = emailTextBox.Text;
         string pass = passwordPasswoerdBox.Password.ToString();
-        myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
-        myCon.Open();
+       // myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+       // myCon.Open();
+       myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+            myCon.Open();
 
-        DataSet dataset = new DataSet();
+            DataSet dataset = new DataSet();
         try
         {
             if (!email.Equals("") && !pass.Equals("") && Remember_me.IsChecked == true)

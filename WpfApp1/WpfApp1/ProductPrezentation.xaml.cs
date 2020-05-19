@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace WpfApp1
 {
@@ -22,15 +24,67 @@ namespace WpfApp1
     {
         List<Image> images = new List<Image>();
         private Utilizator utilizator;
+        private Masini masina;
+        SqlConnection myCon = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security = True");
 
-        public ProductPrezentation(Utilizator utilizator)
+        public ProductPrezentation(Utilizator utilizator,Masini masina)
         {
             InitializeComponent();
             this.utilizator = utilizator;
+            this.masina = masina;
             emailTextBlock.Text = utilizator.email;
             var products = GetProducts();
+
+            myCon.Open();
+            DataSet dataset = new DataSet();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [SpecificationCar]", myCon);
+            dataAdapter.Fill(dataset, "[SpecificationCar]");
+            foreach (DataRow dr in dataset.Tables["[SpecificationCar]"].Rows)
+            {
+
+                int carId = Convert.ToInt32(dr.ItemArray.GetValue(1).ToString());
+                if (carId ==masina.carId)
+                {
+                    masina.color = dr.ItemArray.GetValue(2).ToString();
+                    masina.Co2E= Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
+                    masina.ParkingSpot= dr.ItemArray.GetValue(4).ToString();
+                    masina.Consumption = Convert.ToDouble(dr.ItemArray.GetValue(5).ToString());
+                    masina.Traction= dr.ItemArray.GetValue(6).ToString();
+                    masina.CilindricalCap= Convert.ToDouble(dr.ItemArray.GetValue(7).ToString());
+                    String[] feat= dr.ItemArray.GetValue(8).ToString().Split('@');
+
+                    List<String> f = new List<string>();
+                    for(int i = 0; i < feat.Length; i++)
+                    {
+                        f.Add(feat[i]);
+                    }
+                
+
+                    brand.Text = masina.make;
+                    model.Text = masina.model;
+                    culoare.Text = masina.color;
+                    combustibil.Text = masina.FuelType;
+                    caiputere.Text = masina.HorsePower.ToString();
+                    tractiune.Text = masina.Traction;
+                    capcilindrica.Text = masina.CilindricalCap.ToString();
+                    locparcare.Text = masina.ParkingSpot;
+                    pret.Text = masina.carPrice.ToString();
+
+                    features.Items.Clear();
+                    foreach (String feature in f)
+                    {
+                        features.Items.Add(feature);
+                    }
+
+                }
+               
+            }
+           
+
             if (products.Count > 0)
                 PhotosList.ItemsSource = products;
+
+
             try
             {
                 
@@ -43,8 +97,9 @@ namespace WpfApp1
             }
             catch(Exception ex)
             {
-
+    
             }
+            myCon.Close();
         }
 
         private void ButtonAccInfo_Click(object sender, RoutedEventArgs e)
