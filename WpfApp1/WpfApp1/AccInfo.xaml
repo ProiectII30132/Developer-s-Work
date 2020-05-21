@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="AccInfo" Height="625" Width="500" WindowStyle="None" Icon="Assests/Logo.png" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        
+        Title="AccInfo" Height="625" Width="500" WindowStyle="None" Icon="Assests\Logo(1).ico" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Triggers>
 
         <EventTrigger RoutedEvent="Loaded">

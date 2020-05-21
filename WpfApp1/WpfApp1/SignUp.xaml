@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Icon="Assests\Logo(1).ico"
         Title="Sign Up" Height="700" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Triggers>
 

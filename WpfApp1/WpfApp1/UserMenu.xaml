@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
-        mc:Ignorable="d" Height="660" Width="1160" Visibility="Visible" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"  Icon="Assests/Logo.png">
+        mc:Ignorable="d" Height="660" Width="1160" Visibility="Visible" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"  Icon="Assests\Logo(1).ico">
     <Window.Resources>
         <ResourceDictionary>
 

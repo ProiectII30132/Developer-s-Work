@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        Icon="Assests\Logo(1).ico"
         Title="MessageBoxPoni" Height="348.5" Width="600" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
      <Window.Triggers>
 

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="Assests\Logo(1).ico"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="ProductPrezentation" Height="670.612" Width="1240.372" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
