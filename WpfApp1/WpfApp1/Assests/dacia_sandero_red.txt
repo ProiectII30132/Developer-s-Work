@@ -1,0 +1,17 @@
+Car Maker -> Dacia
+Car Model -> Sandero Stepway
+Car Price -> 9600
+Car Year -> 2019
+Horse Power -> 94
+Fuel Type -> Petrol
+Car Color -> Red
+Car Emission -> 98
+Car Parking Spot -> C4
+Car Consumption -> 5
+Car Traction -> 2x4
+Car Cilindrical Capacity -> 1400
+Car Features-> inchidere centralizata
+	       sistem antifurt
+	       roata de rezerva
+	       clima
+	       geamuri electrice

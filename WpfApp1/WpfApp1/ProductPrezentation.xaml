@@ -170,7 +170,7 @@
                     <TextBlock x:Name="km" Text="Km on Bord" FontSize="14" Margin="0 5" Foreground="#FFC7C7C7"/>
                     <TextBlock x:Name="pret" Text="" HorizontalAlignment="Center" FontSize="25" Margin="0 15" Foreground="#FF6A6A6A"/>
 
-                    <Button  Background="#8BC34A" BorderBrush="#8BC34A" Content="SHOP NOW" Margin="0 20"/>
+                    <Button  Background="#8BC34A" BorderBrush="#8BC34A" Content="SHOP NOW" Margin="0 20" Click="Button_Click"/>
                 </StackPanel>
                 <StackPanel Margin="969,50,10,84">
                     <TextBlock Text="Features" FontSize="22" Margin="0 5" Foreground="#FF6A6A6A"/>

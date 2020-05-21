@@ -1,0 +1,17 @@
+Car Maker -> Dacia
+Car Model -> Duster
+Car Price -> 18600
+Car Year -> 2020
+Horse Power -> 124
+Fuel Type -> Diesel
+Car Color -> Blue Navy
+Car Emission -> 128
+Car Parking Spot -> A6
+Car Consumption -> 6
+Car Traction -> 4x4
+Car Cilindrical Capacity -> 1600
+Car Features-> scaune incalzite
+	       sistem antifurt
+	       roata de rezerva
+	       dublu climatronic
+	       senzor deschidere portbagaj

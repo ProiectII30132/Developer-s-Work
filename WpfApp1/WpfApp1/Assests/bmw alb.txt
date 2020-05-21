@@ -1,0 +1,12 @@
+car maker: BMW
+car model: 320i Sedan
+car price: 38 497 €
+car year: 2015
+horse power: 184
+fuel type: diesel
+car color: white
+car emission: 200
+car parking spot: L5
+car traction: 2x4
+car cilindrical capacity: 2000
+car features: incalizere in scaune, piele alcantara, geamuri electrice, trapa, camera parcare spate

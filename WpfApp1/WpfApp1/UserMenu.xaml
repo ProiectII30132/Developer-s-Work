@@ -200,14 +200,14 @@
                     <ListViewItem Height="60" x:Name="infoDealearItem" Visibility="Hidden" PreviewMouseUp="infoDealearItem_PreviewMouseUp">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="USER"  VerticalAlignment="Center" Width="35" Height="25"/>
-                            <TextBlock Text="Statistics" VerticalAlignment="Center" Margin="20,10"/>
+                            <TextBlock Text="Dealers" VerticalAlignment="Center" Margin="20,10"/>
                         </StackPanel>
                     </ListViewItem>
                     <!--item 5 end-->
-                    <ListViewItem Height="60"  x:Name="StatisticItem" Visibility="Hidden">
+                    <ListViewItem Height="60"  x:Name="addCars_Item" Visibility="Hidden" PreviewMouseUp="addCars_Item_PreviewMouseUp">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="AccountBalance" VerticalAlignment="Center" Width="35" Height="25"/>
-                            <TextBlock Text="Statistics" VerticalAlignment="Center" Margin="20,10"/>
+                            <materialDesign:PackIcon Kind="AddBox" VerticalAlignment="Center" Width="35" Height="25"/>
+                            <TextBlock Text="Add Cars" VerticalAlignment="Center" Margin="20,10"/>
                         </StackPanel>
                     </ListViewItem>
                     <!--item 6 end-->
@@ -239,7 +239,7 @@
 
                 </Grid>
                 <Grid Grid.Column="1">
-                    <TextBox x:Name="QSTextBox" TextChanged="TextBox_TextChanged" materialDesign:HintAssist.Hint="Quick Search" Height="40" Width="210"  HorizontalAlignment="Center" Margin="254,9,466,1"/>
+                    <TextBox x:Name="QSTextBox" TextChanged="TextBox_TextChanged" materialDesign:HintAssist.Hint="Quick Search" Height="40" Width="150"  HorizontalAlignment="Center" Margin="254,9,466,1"/>
                     <Button x:Name="ApplyButton" Click="ApplyButton_Click" HorizontalAlignment="Right" Width="120" Content="Apply filters" Margin="0,0,20,0" />
                 </Grid>
 
@@ -302,10 +302,13 @@
                                                         <ImageBrush ImageSource="{Binding URL[0]}"/>
                                                     </Border.Background>
                                                 </Border>
-                                                <TextBlock Margin="5" Text="{Binding carPrice, StringFormat={}{0:C}}" FontSize="17" FontFamily="Franklin Gothic Medium"/>
-                                                <TextBlock Margin="5 0" Text="{Binding name}" FontSize="15"/>
-                                                <TextBlock Margin="5 0" Text="{Binding HorsePower}" FontSize="15"/>
-                                                <TextBlock Margin="5 0" Text="{Binding FuelType}" FontSize="15"/>
+                                                <StackPanel>
+                                                    <TextBlock Margin="5" Text="{Binding carPrice, StringFormat=Price: {0:C}}" FontSize="17" FontFamily="Franklin Gothic Medium"/>
+                                                    <TextBlock Margin="5 0" Text="{Binding name, StringFormat=Name: {0}}" FontSize="15"/>
+                                                    <TextBlock Margin="5 0" Text="{Binding HorsePower,StringFormat=Horse Power: {0}}" FontSize="15"/>
+                                                    <TextBlock Margin="5 0" Text="{Binding FuelType,StringFormat=Fuel Type: {0}}" FontSize="15"/>
+                                                </StackPanel>
+
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -420,6 +423,52 @@
                     <TextBox x:Name="SumTB" materialDesign:HintAssist.Hint="New Salary" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,27,254,45" />
                     <Button Click="ChangeButton_Click" Content="Change!" FontSize="30" x:Name="ChangeButton" Margin="324,26,28,46" Height="Auto"/>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="gridAddCar" Visibility="Hidden">
+
+                <Grid Height="80" VerticalAlignment="Top">
+
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="To add a car all text must be completed" Margin="344,29,325,10" Height="41" Width="421"/>
+
+                </Grid>
+
+                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="300" Height="435" Margin="5,0,0,62">
+                    <StackPanel>
+                        <TextBox x:Name="makeACTB" materialDesign:HintAssist.Hint="Car Maker" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="modelACTB" materialDesign:HintAssist.Hint="Car Model" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="priceACTB" materialDesign:HintAssist.Hint="Car Price" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="yearACTB" materialDesign:HintAssist.Hint="Car Year" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,2.5"/>
+                        <TextBox x:Name="horsePowerACTB" materialDesign:HintAssist.Hint="Horse Power" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="FuelTypeACTB" materialDesign:HintAssist.Hint="Fuel Type" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+
+                        <CheckBox x:Name="isSoldACCB" materialDesign:CheckBoxAssist.CheckBoxSize="25" Content="Is Sold" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                    </StackPanel>
+                </Grid>
+                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="435" Margin="415,0,375,62" >
+                    <StackPanel>
+                        <TextBox x:Name="colorACTB" materialDesign:HintAssist.Hint="Car Color" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="Co2EACTB" materialDesign:HintAssist.Hint="Car Emission" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="parkingSpotACTB" materialDesign:HintAssist.Hint="Car Parking Spot" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="cosumptionACTB" materialDesign:HintAssist.Hint="Car Cosumption" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,2.5"/>
+                        <TextBox x:Name="tractionACTB" materialDesign:HintAssist.Hint="Car Traction" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <TextBox x:Name="CilindricalACTB" materialDesign:HintAssist.Hint="Car Cilindrical Capacity" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                    </StackPanel>
+                </Grid>
+                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="300" Height="435" Margin="780,0,0,62" >
+                    <Grid Height="100" VerticalAlignment="Top">
+                        <TextBox Height="50" VerticalAlignment="Top" x:Name="featureACTB" materialDesign:HintAssist.Hint="Car Features" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Margin="0,5"/>
+                        <Label x:Name="countFACL" Content="0" Height="40" Width="80" FontSize="24" VerticalAlignment="Bottom" HorizontalAlignment="left" Visibility="Hidden"/>
+                        <Button x:Name="addFeaturACB" Content="Add" Click="addFeature_Click" Height="40" Width="80" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    </Grid>
+                    <Grid Height=" 100" VerticalAlignment="Top" Margin="0,180">
+                        <Label x:Name="countPACL" Content="0" Height="40" Width="60"  FontSize="20" VerticalAlignment="Center" HorizontalAlignment="right" Visibility="Hidden" Margin="0,30"/>
+                        <Button x:Name="addPhotosACB" Height="50" Width="180" Content="Add Photos" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" Click="addPhotosACB_Click"/>
+                    </Grid>
+                    <Grid Height=" 100" VerticalAlignment="Bottom" >
+                        <Button x:Name="addCarACB" Height="50" Width="180" Content="Add Car" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="28" Click="addCarACB_Click" />
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

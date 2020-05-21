@@ -72,6 +72,26 @@ namespace WpfApp1
             //name = make + " " + model;
         }
 
+        public Masini()
+        {
+            this.carId = new int();
+            this.make = "";
+            this.model = "";
+            this.carPrice = new int();
+            this.carYear = new int();
+            this.codITP = new int();
+            this.isSold = false;
+            this.URL = new List<string>();
+            this.HorsePower = new int();
+            this.FuelType = "";
+            name = make + " " + model;
+            this.color = "";
+            this.Consumption = new int();
+            this.ParkingSpot = "";
+            this.Traction = "";
+            this.Features = new List<string>();
+            this.CilindricalCap = new int();
+        }
 
 
     }

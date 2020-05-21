@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,10 +26,14 @@ namespace WpfApp1
     public partial class UserMenu : Window
     {
         // private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
-        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
 
         private Utilizator utilizator;
         private List<Utilizator> dealers= new List<Utilizator>();
+        private Masini newMasina =new Masini();
+
+
+
         public UserMenu(Utilizator utilizator)
         {
             InitializeComponent();
@@ -36,7 +43,7 @@ namespace WpfApp1
             if (this.utilizator.isAdmin == 1)
             {
                 infoDealearItem.Visibility = Visibility.Visible;
-                StatisticItem.Visibility = Visibility.Visible;
+                addCars_Item.Visibility = Visibility.Visible;
                 List<Utilizator> utilizatori = new List<Utilizator>();
                 DataSet dataset = new DataSet();
                 SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Admin]", myCon);
@@ -183,6 +190,7 @@ namespace WpfApp1
 
         private List<Masini> GetMasini()
         {
+
             List<Masini> masini = new List<Masini>();
             myCon.Open();
             try
@@ -209,8 +217,10 @@ namespace WpfApp1
                     {
                         img.Add(url[i]);
                     }
-                    masini.Add(new Masini(id, make, model, price, caryear, issold, img, hp, ft));
-
+                    if (issold == false)
+                    {
+                        masini.Add(new Masini(id, make, model, price, caryear, issold, img, hp, ft));
+                    }
                 }
                 
             }
@@ -239,6 +249,7 @@ namespace WpfApp1
             gridParking.Visibility = Visibility.Hidden;
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Hidden;
+            gridAddCar.Visibility = Visibility.Hidden;
 
 
             var masini = GetMasini();
@@ -253,7 +264,7 @@ namespace WpfApp1
             if (String.IsNullOrEmpty(QSTextBox.Text))
                 return true;
             else
-                return ((item as ProductCars).Name.IndexOf(QSTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as Masini).name.IndexOf(QSTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -272,17 +283,40 @@ namespace WpfApp1
             gridParking.Visibility = Visibility.Visible;
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Hidden;
+            gridAddCar.Visibility = Visibility.Hidden;
 
         }
 
         private void ListViewProducts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             Masini masina = (Masini)ListViewProducts.SelectedItem;
-            MessageBox.Show(masina.name);
-            ProductPrezentation product = new ProductPrezentation(utilizator,masina);
-            product.Show();
-            this.Close();
+            if (ListViewProducts.SelectedItem != null)
+            {
+                try
+                {
+                    if (masina.isSold == true)
+                    {
+                        new MessageBoxPoni("Masina Cumparata!").Show();
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+                ProductPrezentation product = new ProductPrezentation(utilizator, masina);
+                List<Masini> masinis = new List<Masini>();
+                product.ShowDialog();
+                // update User 
+                utilizator = product.GetUtilizator();
+                // update lista masini
+                masina = product.GetMasini();
+                product.Close();
+            }
+     
+           
         }
+
+        
 
         private void ButtonAccInfo_Click(object sender, RoutedEventArgs e)
         {
@@ -298,6 +332,7 @@ namespace WpfApp1
             gridParking.Visibility = Visibility.Hidden;
             gridHome.Visibility = Visibility.Visible;
             gridDealerInfo.Visibility = Visibility.Hidden;
+            gridAddCar.Visibility = Visibility.Hidden;
         }
 
         private void infoDealearItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -306,6 +341,7 @@ namespace WpfApp1
             gridParking.Visibility = Visibility.Hidden;
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Visible;
+            gridAddCar.Visibility = Visibility.Hidden;
             dealers.Clear();
             dealrLB.Items.Clear();
             dealers  = ReadDealers();
@@ -444,6 +480,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -458,6 +495,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -472,6 +510,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -486,6 +525,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -500,6 +540,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -515,6 +556,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -530,6 +572,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -545,6 +588,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -560,6 +604,7 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
@@ -575,10 +620,20 @@ namespace WpfApp1
                     else
                     {
                         masini.RemoveAt(i);
+                        i--;
                     }
                 }
             }
-        
+            hpRB3.IsChecked = false;
+            hpRB2.IsChecked = false;
+            hpRB1.IsChecked = false;
+            ftRB2.IsChecked = false;
+            ftRB1.IsChecked = false;
+            prRB5.IsChecked = false;
+            prRB4.IsChecked = false;
+            prRB3.IsChecked = false;
+            prRB2.IsChecked = false;
+            prRB1.IsChecked = false;
 
             if (masini.Count > 0)
             {
@@ -586,7 +641,7 @@ namespace WpfApp1
                 CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListViewProducts.ItemsSource);
                 collectionView.Filter = UserFilter;
             }
-            else MessageBox.Show("Empty list!");
+            else new MessageBoxPoni("There are no car with that configuration!").Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -594,6 +649,183 @@ namespace WpfApp1
 
         }
 
+        private void addFeature_Click(object sender, RoutedEventArgs e)
+        {
+            newMasina.Features.Add(featureACTB.Text);
+            countFACL.Visibility = Visibility.Visible;
+            countFACL.Content = Convert.ToInt32(countFACL.Content) + 1;
+            featureACTB.Text = "";
+
+        }
+
+        private void addPhotosACB_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            try
+            {
+                openFileDialog.InitialDirectory = @"C:\Users\Castoleru\OneDrive - Technical University of Cluj-Napoca\Desktop\cars";
+            }catch(Exception ex)
+            {
+
+            }
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // read img file and add to the path we want in the project
+                try
+                {
+                    string[] files = openFileDialog.FileName.Split('\\');
+                    string photoName = files[files.Length - 1];
+                    string photoPath = "";
+                    for (int i = 0; i < files.Length - 1; i++)
+                    {
+                        photoPath = photoPath + files[i] + '\\';
+                    }
+                    photoPath = photoPath.Remove(photoPath.Length - 1);
+                    string projectFile = @"D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\Assests";
+                    string sourceFile = System.IO.Path.Combine(photoPath, photoName);
+                    string destFile = System.IO.Path.Combine(projectFile, photoName);
+                    System.IO.File.Copy(sourceFile, destFile, true);
+                    string dbFile = @"Assests/" + photoName;
+                    newMasina.URL.Add(dbFile);
+                    countPACL.Visibility = Visibility.Visible;
+                    countPACL.Content = Convert.ToInt32(countPACL.Content) + 1;
+                }catch(Exception ex)
+                {
+                    new MessageBoxPoni("Doar o poza poate fi \n adaugata pe un rand").Show();
+                }
+
+            }
+
+        }
+        private bool TextsCheck()
+        {
+            // true - at least one box is empty
+            // false - no box is empty
+            return (Convert.ToInt32(countFACL.Content) == 0 && Convert.ToInt32(countPACL.Content) == 0 && makeACTB.Text == "" && modelACTB.Text == "" && priceACTB.Text == "" && yearACTB.Text == "" && horsePowerACTB.Text == "" && FuelTypeACTB.Text == "" && colorACTB.Text == "" && Co2EACTB.Text == "" && parkingSpotACTB.Text == "" && cosumptionACTB.Text == "" && tractionACTB.Text == "" && CilindricalACTB.Text == "");
+
+        }
+        private void addCarACB_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if(TextsCheck() == true)
+            {
+                new MessageBoxPoni("All boxex must be completed \n" +
+                    "and you need to add a photo").Show();
+            }
+            else
+            {
+                string feautersFormat="";
+                foreach(string feat in newMasina.Features)
+                {
+                        feautersFormat = feat + "@" + feautersFormat;
+                }
+                string urlFormat = "";
+                foreach (string url in newMasina.URL)
+                {
+                        urlFormat = url + " " + urlFormat;
+                }
+
+                newMasina.make = makeACTB.Text;
+                newMasina.model = modelACTB.Text;
+                newMasina.isSold = isSoldACCB.IsChecked == true;
+                newMasina.FuelType = FuelTypeACTB.Text;
+                newMasina.carPrice = Convert.ToDouble(priceACTB.Text);
+                newMasina.carYear = Convert.ToInt32(yearACTB.Text);
+                newMasina.color = colorACTB.Text;
+                newMasina.Co2E = Convert.ToInt32(Co2EACTB.Text);
+                newMasina.ParkingSpot = parkingSpotACTB.Text;
+                newMasina.Consumption =Convert.ToInt32(cosumptionACTB.Text);
+                newMasina.Traction = tractionACTB.Text;
+                newMasina.CilindricalCap = Convert.ToInt32(CilindricalACTB.Text);
+                newMasina.HorsePower =Convert.ToInt32(horsePowerACTB.Text);
+                SqlCommand cmd = new SqlCommand();
+                myCon.Open();
+                
+                    cmd = new SqlCommand("INSERT INTO [Car] (Make,[Model],CarPrice,CarYear,IsSold,link,HorsePower,FuelType) VALUES (@Make,@Model,@CarPrice,@CarYear,@IsSold,@link,@HorsePower,@FuelType) ", myCon);
+                    cmd.Parameters.AddWithValue("@Make", newMasina.make);
+                    cmd.Parameters.AddWithValue("@Model", newMasina.model);
+                    cmd.Parameters.AddWithValue("@CarPrice", newMasina.carPrice);
+                    cmd.Parameters.AddWithValue("@CarYear", newMasina.carYear);
+                    cmd.Parameters.AddWithValue("@IsSold", newMasina.isSold);
+                    cmd.Parameters.AddWithValue("@link", urlFormat);
+                    cmd.Parameters.AddWithValue("@HorsePower", newMasina.HorsePower);
+                    cmd.Parameters.AddWithValue("@FuelType", newMasina.FuelType);
+                    cmd.ExecuteNonQuery();
+                    int carID = 0; 
+                    DataSet dataset = new DataSet();
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Car]", myCon);
+                    dataAdapter.Fill(dataset, "[Car]");
+                    foreach (DataRow dr in dataset.Tables["[Car]"].Rows)
+                    {
+
+                        carID = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
        
+                    }
+
+                    cmd = new SqlCommand("INSERT INTO [SpecificationCar] (CarId,Color,Co2E,ParkingSpot,Consumption,Traction,CilindricalCap,Features) VALUES (@CarId,@Color,@Co2E,@ParkingSpot,@Consumption,@Traction,@CilindricalCap,@Features)  ", myCon);
+                    cmd.Parameters.AddWithValue("@CarId", carID);
+                    cmd.Parameters.AddWithValue("@Color", newMasina.color);
+                    cmd.Parameters.AddWithValue("@Co2E", newMasina.Co2E);
+                    cmd.Parameters.AddWithValue("@ParkingSpot", newMasina.ParkingSpot);
+                    cmd.Parameters.AddWithValue("@Consumption", newMasina.Consumption);
+                    cmd.Parameters.AddWithValue("@Traction", newMasina.Traction);
+                    cmd.Parameters.AddWithValue("@CilindricalCap", newMasina.CilindricalCap);
+                    cmd.Parameters.AddWithValue("@Features", feautersFormat);
+                    cmd.ExecuteNonQuery();
+
+                    newMasina = new Masini();
+                    featureACTB.Text = "";
+                    makeACTB.Text = "";
+                    modelACTB.Text = "";
+                    priceACTB.Text = "";
+                    yearACTB.Text = "";
+                    horsePowerACTB.Text = "";
+                    FuelTypeACTB.Text = "";
+                    isSoldACCB.IsChecked = false;
+                    colorACTB.Text = "";
+                    Co2EACTB.Text = "";
+                    parkingSpotACTB.Text = "";
+                    cosumptionACTB.Text = "";
+                    tractionACTB.Text = "";
+                    CilindricalACTB.Text = "";
+                    countFACL.Content = "0";
+                    countPACL.Content = "0";
+                    countFACL.Visibility = Visibility.Hidden;
+                    countPACL.Visibility = Visibility.Hidden;
+
+
+                myCon.Close();
+            }
+
+        }
+
+        private void addCars_Item_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            gridCarsImage.Visibility = Visibility.Hidden;
+            gridParking.Visibility = Visibility.Hidden;
+            gridHome.Visibility = Visibility.Hidden;
+            gridDealerInfo.Visibility = Visibility.Hidden;
+            gridAddCar.Visibility = Visibility.Visible;
+            newMasina = new Masini();
+            featureACTB.Text = "";
+            makeACTB.Text = "";
+            modelACTB.Text = "";
+            priceACTB.Text = "";
+            yearACTB.Text = "";
+            horsePowerACTB.Text = "";
+            FuelTypeACTB.Text = "";
+            isSoldACCB.IsChecked = false;
+            colorACTB.Text = "";
+            Co2EACTB.Text = "";
+            parkingSpotACTB.Text = "";
+            cosumptionACTB.Text = "";
+            tractionACTB.Text = "";
+            CilindricalACTB.Text = "";
+            countFACL.Content = "0";
+            countPACL.Content = "0";
+            countFACL.Visibility = Visibility.Hidden;
+            countPACL.Visibility = Visibility.Hidden;
+        }
     }
 }

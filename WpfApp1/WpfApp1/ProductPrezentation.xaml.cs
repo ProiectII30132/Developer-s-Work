@@ -25,11 +25,13 @@ namespace WpfApp1
         List<Image> images = new List<Image>();
         private Utilizator utilizator;
         private Masini masina;
-        SqlConnection myCon = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security = True");
+        SqlConnection myCon = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security = True");
 
         public ProductPrezentation(Utilizator utilizator,Masini masina)
         {
+
             InitializeComponent();
+            myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
             this.utilizator = utilizator;
             this.masina = masina;
             emailTextBlock.Text = utilizator.email;
@@ -60,15 +62,16 @@ namespace WpfApp1
                     }
                 
 
-                    brand.Text = masina.make;
-                    model.Text = masina.model;
-                    culoare.Text = masina.color;
-                    combustibil.Text = masina.FuelType;
-                    caiputere.Text = masina.HorsePower.ToString();
-                    tractiune.Text = masina.Traction;
-                    capcilindrica.Text = masina.CilindricalCap.ToString();
-                    locparcare.Text = masina.ParkingSpot;
-                    pret.Text = masina.carPrice.ToString();
+                    brand.Text = brand.Text + ": "+ masina.make;
+                    model.Text = model.Text + ": " + masina.model;
+                    culoare.Text = culoare.Text + ": " + masina.color;
+                    combustibil.Text = combustibil.Text + ": " + masina.FuelType;
+                    caiputere.Text = caiputere.Text + ": " + masina.HorsePower.ToString();
+                    tractiune.Text = tractiune.Text + ": " + masina.Traction;
+                    capcilindrica.Text = capcilindrica.Text + ": " +  masina.CilindricalCap.ToString();
+                    locparcare.Text = locparcare.Text + ": " + masina.ParkingSpot;
+                    pret.Text = "$" + masina.carPrice.ToString();
+                    f.RemoveAt(f.Count - 1);
 
                     features.Items.Clear();
                     foreach (String feature in f)
@@ -79,8 +82,8 @@ namespace WpfApp1
                 }
                
             }
-           
 
+            products.RemoveAt(products.Count - 1);
             if (products.Count > 0)
                 PhotosList.ItemsSource = products;
 
@@ -89,7 +92,7 @@ namespace WpfApp1
             {
                 
 
-                var uriSource = new Uri(@"/WpfApp1;component/"+products.ElementAt(1).Image, UriKind.Relative);
+                var uriSource = new Uri(@"/WpfApp1;component/"+products.ElementAt(0).Image, UriKind.Relative);
                 BigImg.Source = new BitmapImage(uriSource);
                 BigImg.Width = 400;
                 BigImg.Height = 400;
@@ -124,9 +127,8 @@ namespace WpfApp1
 
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
-            UserMenu userMenu = new UserMenu(utilizator);
-            userMenu.Show();
-            this.Close();
+
+            this.Visibility = Visibility.Hidden;
         }
 
         private void PhotosList_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -156,15 +158,70 @@ namespace WpfApp1
 
         private List<Images> GetProducts()
         {
-            return new List<Images>()
+            List<Images> images = new List<Images>();
+            
+            foreach(string s in masina.URL)
             {
-                new Images("Assests/Skoda-Kamiq1.png"),
-                new Images("Assests/Skoda-Kamiq2.png"),
-                new Images("Assests/Skoda-Kamiq3.png"),
-                new Images("Assests/Skoda-Kamiq4.png"),
-                new Images("Assests/Skoda-Kamiq1.png"),
+                images.Add(new Images(s));
+            }
 
-            };
+            return images;
+        }
+        public Masini GetMasini()
+        {
+            return this.masina;
+        }
+        public Utilizator GetUtilizator()
+        {
+            return this.utilizator;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            utilizator.salesNumber = utilizator.salesNumber + 1;
+            myCon.Open();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                if (utilizator.isAdmin == 1)
+                {
+                    cmd = new SqlCommand("UPDATE [Admin] SET SalesNumber=@SN WHERE [Email]=@Email", myCon);
+                    cmd.Parameters.AddWithValue("@Email", utilizator.email);
+                    cmd.Parameters.AddWithValue("@SN", utilizator.salesNumber);
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd = new SqlCommand("UPDATE [Dealer] SET SalesNumber=@SN WHERE [Email]=@Email", myCon);
+                    cmd.Parameters.AddWithValue("@Email", utilizator.email);
+                    cmd.Parameters.AddWithValue("@SN", utilizator.salesNumber);
+                    cmd.ExecuteNonQuery();
+                }
+               
+            }catch(Exception ex)
+            {
+                new MessageBoxPoni("DB Error USER").Show();
+            }
+
+            myCon.Close();
+          
+            masina.isSold = true;
+            myCon.Open();
+            try
+            {
+                cmd = new SqlCommand("UPDATE [Car] SET IsSold=@IS WHERE [CarId]=@CID", myCon);
+                cmd.Parameters.AddWithValue("@CID", masina.carId);
+                cmd.Parameters.AddWithValue("@IS", masina.isSold);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch(Exception ex)
+            {
+                new MessageBoxPoni("DB Error CAR").Show();
+
+            }
+            myCon.Close();
+            this.Hide();
         }
     }
 }

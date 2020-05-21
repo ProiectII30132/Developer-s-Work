@@ -22,6 +22,8 @@ namespace WpfApp1
     {
         private SqlCommand cmd;
         private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+
+
         Utilizator utilizator;
         public SignUp(Utilizator utilizator)
         {
