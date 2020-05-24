@@ -31,7 +31,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle Height="542" Fill="White" VerticalAlignment="Bottom" RadiusY="14.5" RadiusX="14.5" Margin="20,0,34,30">
+        <Rectangle Height="510" Fill="White" VerticalAlignment="Bottom" RadiusY="14.5" RadiusX="14.5" Margin="20,0,34,62">
             <Rectangle.Effect>
                 <DropShadowEffect Color="#FFBBBBBB" BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1"/>
             </Rectangle.Effect>
@@ -42,7 +42,7 @@
             </Image.Effect>
         </Image>
         <Grid Height="542" Margin="20,0,34,30" VerticalAlignment="Bottom">
-            <StackPanel>
+            <StackPanel Margin="0,0,0,44">
                 <TextBlock Text="Account Info" HorizontalAlignment="Center"  FontSize="38" FontFamily="Champagne &amp; Limousines" Margin="0,20,0,0"/>
                 <Separator Margin="100,0"/>
                 <TextBlock  FontSize="24" TextAlignment="Left"  Margin="25,30,340,10" Foreground="Gray" Cursor="Hand">
@@ -78,10 +78,13 @@
             <TextBlock  FontSize="20" TextAlignment="Left"  Margin="22,367,280,134" Foreground="DarkGreen" Cursor="Hand">
                     <Run x:Name="salesTB" Text="14"/>
             </TextBlock>
-            
-            <Button x:Name="Close" Content="Back" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="44" Margin="158,0,147,-20" Width="133" Click="Close_Click"/>
+
         </Grid>
         <Separator Margin="40,83,60,-8"/>
+        <Grid Height="100" VerticalAlignment="Bottom">
+            <Button x:Name="BackBT" Content="Back" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="50" Margin="57,0,0,40" Width="150" Click="Close_Click"/>
+            <Button x:Name="ChangePB" Content="Change Password" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="50" Margin="284,0,0,40" Width="150" Click="ChangePB_Click"/>
 
+        </Grid>
     </Grid>
 </Window>

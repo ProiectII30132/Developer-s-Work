@@ -40,7 +40,7 @@
         </Rectangle>
         <Grid Margin="251,84,54,76">
 
-            <TextBlock TextAlignment="Center" Margin="0,24,0,29" FontSize="20"   x:Name="text"/>
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Margin="0,24,0,29" FontSize="20"   x:Name="text"/>
 
         </Grid>
         <Button Height="40" Content="Ok!" Background="#4c8c4a" Margin="338,256,160,44" Click="Button_Click">

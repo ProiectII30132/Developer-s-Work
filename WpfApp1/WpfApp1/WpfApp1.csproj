@@ -56,6 +56,9 @@
     <ApplicationIcon>Logo%281%29.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="De.TorstenMandelkow.MetroChart, Version=0.9.5818.20693, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUICharts.WPF.Beta.0.9.1\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.2.4.1361, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.2.4\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -88,6 +91,9 @@
     <Compile Include="AccInfo.xaml.cs">
       <DependentUpon>AccInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChangePass.xaml.cs">
+      <DependentUpon>ChangePass.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Fpas.xaml.cs">
       <DependentUpon>Fpas.xaml</DependentUpon>
     </Compile>
@@ -111,6 +117,10 @@
     </Compile>
     <Compile Include="Utilizator.cs" />
     <Page Include="AccInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangePass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,8 +193,6 @@
     <Resource Include="Assests\AudiA4Front.jpg" />
     <Resource Include="Assests\AudiA4Interior.jpg" />
     <Resource Include="Assests\AudiA4Lateral.jpg" />
-    <Resource Include="Assests\bmw alb.txt" />
-    <Resource Include="Assests\bmw auriu.txt" />
     <Resource Include="Assests\bmw_320iSedan_alb_1.PNG" />
     <Resource Include="Assests\bmw_320iSedan_alb_2.PNG" />
     <Resource Include="Assests\bmw_320iSedan_alb_3.PNG" />
@@ -194,12 +202,10 @@
     <Resource Include="Assests\bmw_X2sDrive18i_auriu_3.PNG" />
     <Resource Include="Assests\bmw_X2sDrive18i_auriu_4.PNG" />
     <Resource Include="Assests\close.png" />
-    <Resource Include="Assests\dacia_duster_bluenavy.txt" />
     <Resource Include="Assests\dacia_duster_bluenavy_1.png" />
     <Resource Include="Assests\dacia_duster_bluenavy_2.png" />
     <Resource Include="Assests\dacia_duster_bluenavy_3.png" />
     <Resource Include="Assests\dacia_duster_bluenavy_4.png" />
-    <Resource Include="Assests\dacia_sandero_red.txt" />
     <Resource Include="Assests\dacia_sandero_red_1.png" />
     <Resource Include="Assests\dacia_sandero_red_2.png" />
     <Resource Include="Assests\dacia_sandero_red_3.png" />
@@ -210,11 +216,9 @@
     <Resource Include="Assests\golf4.JPG" />
     <Resource Include="Assests\Logo.png" />
     <Resource Include="Assests\m1.jpg" />
-    <Resource Include="Assests\m1.txt" />
     <Resource Include="Assests\m2.jpg" />
     <Resource Include="Assests\m3.jpg" />
     <Resource Include="Assests\p1.jpg" />
-    <Resource Include="Assests\p1.txt" />
     <Resource Include="Assests\p2.jpg" />
     <Resource Include="Assests\p3.jpg" />
     <Resource Include="Assests\parcare.jpg" />
@@ -230,6 +234,18 @@
     <Resource Include="Logo%281%29.ico" />
     <Resource Include="Assests\Logo%281%29.ico" />
     <Resource Include="Assests\Logo.ico" />
+    <Resource Include="Assests\testa_modelS_1.JPG" />
+    <Resource Include="Assests\testa_modelS_2.JPG" />
+    <Resource Include="Assests\tesla_model3_1.JPG" />
+    <Resource Include="Assests\tesla_model3_2.JPG" />
+    <Resource Include="Assests\tesla_modelX_1.JPG" />
+    <Resource Include="Assests\tesla_modelX_2.JPG" />
+    <Resource Include="Assests\toyota_CorollaHatchback_1.JPG" />
+    <Resource Include="Assests\toyota_CorollaHatchback_2.JPG" />
+    <Resource Include="Assests\toyota_CorollaHatchback_3.JPG" />
+    <Resource Include="Assests\toyota_rav4_1.JPG" />
+    <Resource Include="Assests\toyota_rav4_2.JPG" />
+    <Resource Include="Assests\toyota_rav4_3.JPG" />
     <Content Include="PCDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

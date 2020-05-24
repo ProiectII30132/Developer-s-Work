@@ -21,11 +21,6 @@ namespace WpfApp1
     /// </summary>
     public partial class AccInfo : Window
     {
-        SqlCommand cmd;
-        SqlConnection myCon = new SqlConnection(); 
-
-
-
 
         private Utilizator utilizator;
         public AccInfo(Utilizator utilizator)
@@ -45,6 +40,15 @@ namespace WpfApp1
             UserMenu user = new UserMenu(utilizator);
             user.Show();
             this.Close();
+
+        }
+
+        private void ChangePB_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePass changePass = new ChangePass(utilizator);
+            changePass.ShowDialog();
+            this.utilizator = changePass.GetUtilizator();
+            changePass.Close();
 
         }
     }

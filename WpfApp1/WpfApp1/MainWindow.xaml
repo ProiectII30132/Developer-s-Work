@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Icon="Assests\Logo(1).ico"
-        Title="Login" Height="500" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Login" Height="475" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Triggers>
 
         <EventTrigger RoutedEvent="Loaded">
@@ -34,12 +34,12 @@
             </Rectangle.Fill>
         </Rectangle>
         <Image Source="Assests/Logo.png" Height="200" Width="200" VerticalAlignment="Top" Margin="20" PreviewMouseUp="Image_PreviewMouseUp"/>
-        <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="14.5" RadiusX="14.5">
+        <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,75" RadiusY="14.5" RadiusX="14.5">
             <Rectangle.Effect>
                 <DropShadowEffect Color="#FFBBBBBB" BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1"/>
             </Rectangle.Effect>
         </Rectangle>
-        <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
+        <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,75">
             <TextBlock Text="Login"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18"/>
             <StackPanel VerticalAlignment="Center" Margin="10">
                 <TextBox x:Name="emailTextBox" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
@@ -49,8 +49,7 @@
             <CheckBox x:Name="Remember_me"  Content="Remember me" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,40" Foreground="Gray" Cursor="Hand"/>
 
         </Grid>
-        <Button x:Name="loginButton" Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,100,77" Content="Login" Click="loginButton_Click"/>
-        <TextBlock PreviewMouseUp="signUpTBlock_PreviewMouseUp" x:Name="signUpTBlock" Text="New here? Create an account!" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30" Foreground="Gray" Cursor="Hand"/>
+        <Button x:Name="loginButton" Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="97,0,103,59" Content="Login" Click="loginButton_Click"/>
         <Ellipse Fill="DarkRed" Height="10" Width="10" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,10" PreviewMouseLeftButtonUp="Ellipse_PreviewMouseLeftButtonUp" >
             
             <Ellipse.Effect>

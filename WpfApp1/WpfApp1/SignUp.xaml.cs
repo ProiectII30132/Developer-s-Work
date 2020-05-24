@@ -40,6 +40,16 @@ namespace WpfApp1
             }
             try
             {
+                try
+                {
+                    double salaryTest = Convert.ToDouble(SallaryTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    new MessageBoxPoni("The salary is a number");
+                    return;
+                }
+
                 myCon.Open();
                 cmd = new SqlCommand("INSERT INTO [user] (Email,[Password],Salary) VALUES (@Email,@Password,@Salary) ", myCon);
                 cmd.Parameters.AddWithValue("@Email", emailTB.Text);
@@ -64,6 +74,9 @@ namespace WpfApp1
             catch (Exception ex)
             {
                 new MessageBoxPoni("Data Base Error").Show();
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
 
             }
             myCon.Close();

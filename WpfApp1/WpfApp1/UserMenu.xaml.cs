@@ -37,6 +37,9 @@ namespace WpfApp1
         public UserMenu(Utilizator utilizator)
         {
             InitializeComponent();
+            
+            
+
             this.utilizator = utilizator;
             emailTextBlock.Text = utilizator.email;
             myCon.Open();
@@ -302,6 +305,8 @@ namespace WpfApp1
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+                    return;
                 }
                 ProductPrezentation product = new ProductPrezentation(utilizator, masina);
                 List<Masini> masinis = new List<Masini>();
@@ -357,9 +362,11 @@ namespace WpfApp1
                 SalaryTB.Text = "" + dealers.ElementAt(dealrLB.SelectedIndex).salary;
                 SalesNumberTB.Text = "" + dealers.ElementAt(dealrLB.SelectedIndex).salesNumber;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("bug");
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
             }
         }
 
@@ -387,6 +394,9 @@ namespace WpfApp1
             {
                 new MessageBoxPoni("Error").Show();
                 ok = false;
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
             }
             myCon.Close();
 
@@ -410,17 +420,20 @@ namespace WpfApp1
                 Utilizator test = null;
                 SignUp signUp = new SignUp(test);
                 signUp.ShowDialog();
-                int i=0;
-                
                 test = signUp.getUtil();
                 signUp.Close();
-                dealers.Add(test);
-                dealrLB.Items.Add(test.nume+' '+test.prenume);
+                if (test != null)
+                {
+                    dealers.Add(test);
+                    dealrLB.Items.Add(test.nume + ' ' + test.prenume);
+                }
              
             }
             catch(Exception ex)
             {
                 new MessageBoxPoni("Dealer Aded").Show();
+                Console.WriteLine(ex.Message);
+                return;
             }
         }
 
@@ -434,7 +447,17 @@ namespace WpfApp1
             SqlCommand cmd = new SqlCommand();
             bool ok = false;
             try
-           {
+            {
+                try
+                {
+                    double slaryTest = Convert.ToDouble(SumTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The salary must be a number!").Show();
+                    return;
+                }
+
                 Utilizator upDealer = dealers.ElementAt(dealrLB.SelectedIndex);
                 myCon.Open();
                 cmd = new SqlCommand("UPDATE [user] SET Salary=@Salary WHERE [Email]=@Email", myCon);
@@ -447,6 +470,9 @@ namespace WpfApp1
             {
                 new MessageBoxPoni("Dealer not selected").Show();
                 ok = false;
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
             }
             myCon.Close();
             SumTB.Text ="";
@@ -576,6 +602,36 @@ namespace WpfApp1
                     }
                 }
             }
+            if (ftRB3.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].FuelType.Equals("Hybrid"))
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+            if (ftRB4.IsChecked == true)
+            {
+                for (int i = 0; i < masini.Count; i++)
+                {
+                    if (masini[i].FuelType.Equals("Electric"))
+                    {
+
+                    }
+                    else
+                    {
+                        masini.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
 
             if (hpRB1.IsChecked == true)
             {
@@ -629,6 +685,8 @@ namespace WpfApp1
             hpRB1.IsChecked = false;
             ftRB2.IsChecked = false;
             ftRB1.IsChecked = false;
+            ftRB3.IsChecked = false;
+            ftRB4.IsChecked = false;
             prRB5.IsChecked = false;
             prRB4.IsChecked = false;
             prRB3.IsChecked = false;
@@ -641,7 +699,7 @@ namespace WpfApp1
                 CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListViewProducts.ItemsSource);
                 collectionView.Filter = UserFilter;
             }
-            else new MessageBoxPoni("There are no car with that configuration!").Show();
+            else new MessageBoxPoni("There are no car with that \n configuration!").Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -667,7 +725,8 @@ namespace WpfApp1
                 openFileDialog.InitialDirectory = @"C:\Users\Castoleru\OneDrive - Technical University of Cluj-Napoca\Desktop\cars";
             }catch(Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
+                
             }
             if (openFileDialog.ShowDialog() == true)
             {
@@ -692,7 +751,9 @@ namespace WpfApp1
                     countPACL.Content = Convert.ToInt32(countPACL.Content) + 1;
                 }catch(Exception ex)
                 {
-                    new MessageBoxPoni("Doar o poza poate fi \n adaugata pe un rand").Show();
+                    new MessageBoxPoni("Doar o poza poate fi \n adaugata pe rand").Show();
+                    Console.WriteLine(ex.Message);
+                    return;
                 }
 
             }
@@ -707,41 +768,93 @@ namespace WpfApp1
         }
         private void addCarACB_Click(object sender, RoutedEventArgs e)
         {
-            
-            if(TextsCheck() == true)
+
+            if (TextsCheck() == true)
             {
                 new MessageBoxPoni("All boxex must be completed \n" +
                     "and you need to add a photo").Show();
             }
             else
             {
-                string feautersFormat="";
-                foreach(string feat in newMasina.Features)
+
+                string feautersFormat = "";
+                foreach (string feat in newMasina.Features)
                 {
-                        feautersFormat = feat + "@" + feautersFormat;
+                    feautersFormat = feat + "@" + feautersFormat;
                 }
                 string urlFormat = "";
                 foreach (string url in newMasina.URL)
                 {
-                        urlFormat = url + " " + urlFormat;
+                    urlFormat = url + " " + urlFormat;
                 }
 
                 newMasina.make = makeACTB.Text;
                 newMasina.model = modelACTB.Text;
                 newMasina.isSold = isSoldACCB.IsChecked == true;
                 newMasina.FuelType = FuelTypeACTB.Text;
+                try 
+                { 
                 newMasina.carPrice = Convert.ToDouble(priceACTB.Text);
-                newMasina.carYear = Convert.ToInt32(yearACTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The price is an number").Show();
+                    return;
+                }
+                try
+                {
+                    newMasina.carYear = Convert.ToInt32(yearACTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The year is an natural number").Show();
+                    return;
+                }
                 newMasina.color = colorACTB.Text;
-                newMasina.Co2E = Convert.ToInt32(Co2EACTB.Text);
+                try
+                {
+                    newMasina.Co2E = Convert.ToInt32(Co2EACTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The CO2 emission \n is an natural number").Show();
+                    return;
+                }
                 newMasina.ParkingSpot = parkingSpotACTB.Text;
-                newMasina.Consumption =Convert.ToInt32(cosumptionACTB.Text);
+                try
+                {
+                    newMasina.Consumption = Convert.ToDouble(cosumptionACTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The car consumption \n is an number").Show();
+                    return;
+                }
                 newMasina.Traction = tractionACTB.Text;
-                newMasina.CilindricalCap = Convert.ToInt32(CilindricalACTB.Text);
-                newMasina.HorsePower =Convert.ToInt32(horsePowerACTB.Text);
+                try
+                {
+                    newMasina.CilindricalCap = Convert.ToInt32(CilindricalACTB.Text);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The Cilindrical capcacity \n is an natural number").Show();
+                    return;
+                }
+                try
+                {
+                    newMasina.HorsePower = Convert.ToInt32(horsePowerACTB.Text);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("The Horse Power \n is an natural number").Show();
+                    return;
+                }
+               
                 SqlCommand cmd = new SqlCommand();
                 myCon.Open();
-                
+                try
+                {
                     cmd = new SqlCommand("INSERT INTO [Car] (Make,[Model],CarPrice,CarYear,IsSold,link,HorsePower,FuelType) VALUES (@Make,@Model,@CarPrice,@CarYear,@IsSold,@link,@HorsePower,@FuelType) ", myCon);
                     cmd.Parameters.AddWithValue("@Make", newMasina.make);
                     cmd.Parameters.AddWithValue("@Model", newMasina.model);
@@ -752,7 +865,7 @@ namespace WpfApp1
                     cmd.Parameters.AddWithValue("@HorsePower", newMasina.HorsePower);
                     cmd.Parameters.AddWithValue("@FuelType", newMasina.FuelType);
                     cmd.ExecuteNonQuery();
-                    int carID = 0; 
+                    int carID = 0;
                     DataSet dataset = new DataSet();
                     SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Car]", myCon);
                     dataAdapter.Fill(dataset, "[Car]");
@@ -760,7 +873,7 @@ namespace WpfApp1
                     {
 
                         carID = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
-       
+
                     }
 
                     cmd = new SqlCommand("INSERT INTO [SpecificationCar] (CarId,Color,Co2E,ParkingSpot,Consumption,Traction,CilindricalCap,Features) VALUES (@CarId,@Color,@Co2E,@ParkingSpot,@Consumption,@Traction,@CilindricalCap,@Features)  ", myCon);
@@ -773,6 +886,10 @@ namespace WpfApp1
                     cmd.Parameters.AddWithValue("@CilindricalCap", newMasina.CilindricalCap);
                     cmd.Parameters.AddWithValue("@Features", feautersFormat);
                     cmd.ExecuteNonQuery();
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
                     newMasina = new Masini();
                     featureACTB.Text = "";

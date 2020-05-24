@@ -23,7 +23,6 @@ namespace WpfApp1
 /// </summary>
 public partial class MainWindow : Window
 {
-    SqlCommand cmd;
     SqlConnection myCon = new SqlConnection();
 
 
@@ -39,16 +38,14 @@ public partial class MainWindow : Window
                     String[] emailsiparola = linie.Split(' ');
                     emailTextBox.Text = emailsiparola[0];
                     passwordPasswoerdBox.Password = emailsiparola[1];
-
                 }
                 streamReader.Close();
 
             }
             catch (IOException ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
-
         }
 
    private void loginButton_Click(object sender, RoutedEventArgs e)
@@ -113,8 +110,8 @@ public partial class MainWindow : Window
     private void fpTextBlock_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
         Fpas fpas = new Fpas();
-        this.Close();
-        fpas.Show();
+        fpas.ShowDialog();
+        fpas.Close();
     }
 
     private void signUpTBlock_PreviewMouseUp(object sender, MouseButtonEventArgs e)

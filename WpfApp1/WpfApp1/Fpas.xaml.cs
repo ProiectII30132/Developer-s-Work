@@ -23,12 +23,9 @@ namespace WpfApp1
     /// </summary>
     public partial class Fpas : Window
     {
-        NetworkCredential login;
-        SmtpClient client;
-        MailMessage message;
-        static bool mailSent = false;
+
         SqlConnection myCon = new SqlConnection();
-        private object ex;
+
 
         public Fpas()
         {
@@ -46,7 +43,6 @@ namespace WpfApp1
                 {
                     List<Utilizator> utilizatori = new List<Utilizator>();
                     string body = "";
-
                     myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True"; myCon.Open();
                     DataSet dataset = new DataSet();
                     SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [user]", myCon);
@@ -58,7 +54,6 @@ namespace WpfApp1
                         String passRead = dr.ItemArray.GetValue(2).ToString();
                         double salary = Convert.ToDouble(dr.ItemArray.GetValue(4).ToString());
                         utilizatori.Add(new Utilizator(emailRead, passRead, admin,salary));
-
                     }
                     myCon.Close();
                     bool ok = false;
@@ -71,20 +66,12 @@ namespace WpfApp1
                             ok = true;
                         }
                     }
-
                     if (ok == true)
                     {
                         var fromAddress = new MailAddress("ponicarsrl@gmail.com");
                         var fromPassword = "ponicar2020";
                         var toAddress = new MailAddress(emailTB.Text);
-
-
-
                         string subject = "SUBIECT";
-
-
-
-
                         System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
                         {
                             Host = "smtp.gmail.com",
@@ -94,31 +81,26 @@ namespace WpfApp1
                             UseDefaultCredentials = false,
                             Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                         };
-
-
-
                         using (var message = new MailMessage(fromAddress, toAddress)
                         {
                             Subject = subject,
                             Body = body
                         })
-
-
-
                             smtp.Send(message);
                     }
                     else
                     {
                         new MessageBoxPoni("Email introdus gresit!").Show();
-
                     }
                 }
                 catch(SmtpException ex)
                 {
+                    Console.WriteLine(ex.Message);
                     new MessageBoxPoni("Probleme la comunicarea cu serverul!").Show();
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                     new MessageBoxPoni("Email introdus gresit!").Show();
                 }
             }

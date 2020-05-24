@@ -100,7 +100,8 @@ namespace WpfApp1
             }
             catch(Exception ex)
             {
-    
+                                    Console.WriteLine(ex.Message);
+
             }
             myCon.Close();
         }
@@ -152,6 +153,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
 
             }
         }
@@ -201,6 +203,9 @@ namespace WpfApp1
             }catch(Exception ex)
             {
                 new MessageBoxPoni("DB Error USER").Show();
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
             }
 
             myCon.Close();
@@ -218,7 +223,9 @@ namespace WpfApp1
             catch(Exception ex)
             {
                 new MessageBoxPoni("DB Error CAR").Show();
-
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                return;
             }
             myCon.Close();
             this.Hide();

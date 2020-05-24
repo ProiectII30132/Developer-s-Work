@@ -214,3 +214,6 @@ E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Wor
 E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csproj.CopyComplete
 E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\WpfApp1.exe
 E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\WpfApp1.pdb
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\ChangePass.g.cs
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\ChangePass.baml
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\De.TorstenMandelkow.MetroChart.dll
