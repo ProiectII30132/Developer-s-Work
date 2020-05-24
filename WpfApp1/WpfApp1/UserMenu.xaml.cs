@@ -17,6 +17,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace WpfApp1
 {
@@ -27,19 +29,12 @@ namespace WpfApp1
     {
         // private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
         private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
-
         private Utilizator utilizator;
         private List<Utilizator> dealers= new List<Utilizator>();
         private Masini newMasina =new Masini();
-
-
-
         public UserMenu(Utilizator utilizator)
         {
             InitializeComponent();
-            
-            
-
             this.utilizator = utilizator;
             emailTextBlock.Text = utilizator.email;
             myCon.Open();
@@ -47,31 +42,26 @@ namespace WpfApp1
             {
                 infoDealearItem.Visibility = Visibility.Visible;
                 addCars_Item.Visibility = Visibility.Visible;
+                StatisticsItem.Visibility = Visibility.Visible;
                 List<Utilizator> utilizatori = new List<Utilizator>();
                 DataSet dataset = new DataSet();
                 SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Admin]", myCon);
                 dataAdapter.Fill(dataset, "[Admin]");
                 foreach (DataRow dr in dataset.Tables["[Admin]"].Rows)
                 {
-
-
                     String firstName = dr.ItemArray.GetValue(1).ToString();
                     String lastName = dr.ItemArray.GetValue(2).ToString();
                     int admin = Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
                     String emailRead = dr.ItemArray.GetValue(4).ToString();
                     String passRead = dr.ItemArray.GetValue(5).ToString();
-
                     utilizatori.Add(new Utilizator(emailRead, passRead, admin, lastName, firstName));
-
                 }
-
                 foreach (Utilizator utilizator1 in utilizatori)
                 {
                     if (utilizator1.email == utilizator.email)
                     {
                         utilizator.nume = utilizator1.nume;
                         utilizator.prenume = utilizator1.prenume;
-
                     }
                 }
             }
@@ -83,17 +73,13 @@ namespace WpfApp1
                 dataAdapter.Fill(dataset, "[Dealer]");
                 foreach (DataRow dr in dataset.Tables["[Dealer]"].Rows)
                 {
-
-
                     String firstName = dr.ItemArray.GetValue(1).ToString();
                     String lastName = dr.ItemArray.GetValue(2).ToString();
                     int admin = Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
                     int sales = Convert.ToInt32(dr.ItemArray.GetValue(4).ToString());
                     String emailRead = dr.ItemArray.GetValue(5).ToString();
                     String passRead = dr.ItemArray.GetValue(6).ToString();
-
                     utilizatori.Add(new Utilizator(emailRead, passRead, admin, lastName, firstName, sales));
-
                 }
 
                 foreach (Utilizator utilizator1 in utilizatori)
@@ -103,13 +89,10 @@ namespace WpfApp1
                         utilizator.nume = utilizator1.nume;
                         utilizator.prenume = utilizator1.prenume;
                         utilizator.salesNumber = utilizator1.salesNumber;
-
                     }
                 }
-
             }
             myCon.Close();
-
         }
 
         public List<Utilizator> ReadDealers()
@@ -128,13 +111,11 @@ namespace WpfApp1
                 if(admin ==0)
                     dealers.Add(new Utilizator(emailRead, passRead, admin, salary));
             }
-
             List<Utilizator> utilizatori = new List<Utilizator>();
             dataAdapter = new SqlDataAdapter("SELECT * FROM [Dealer]", myCon);
             dataAdapter.Fill(dataset, "[Dealer]");
             foreach (DataRow dr in dataset.Tables["[Dealer]"].Rows)
             {
-
                 String firstName = dr.ItemArray.GetValue(1).ToString();
                 String lastName = dr.ItemArray.GetValue(2).ToString();
                 int admin = Convert.ToInt32(dr.ItemArray.GetValue(3).ToString());
@@ -158,7 +139,6 @@ namespace WpfApp1
             }
             myCon.Close();
             return dealers;
-
         }
 
         private void ButtonLogOut_Click(object sender, RoutedEventArgs e)
@@ -181,30 +161,17 @@ namespace WpfApp1
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
         }
 
-        private void PackIcon_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void CarsImg_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-           
-        }
-
         private List<Masini> GetMasini()
-        {
-
+        { 
             List<Masini> masini = new List<Masini>();
             myCon.Open();
             try
-            {
-                
+            {              
                 DataSet dataset = new DataSet();
                 SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Car]", myCon);
                 dataAdapter.Fill(dataset, "[Car]");
                 foreach (DataRow dr in dataset.Tables["[Car]"].Rows)
                 {
-                    
                     int id = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
                     String make = dr.ItemArray.GetValue(1).ToString();
                     String model = dr.ItemArray.GetValue(2).ToString();
@@ -214,7 +181,6 @@ namespace WpfApp1
                     String[] url = dr.ItemArray.GetValue(6).ToString().Split(' ');
                     int hp = Convert.ToInt32(dr.ItemArray.GetValue(7).ToString());
                     String ft = dr.ItemArray.GetValue(8).ToString();
-
                     List<String> img = new List<string>();
                     for(int i = 0; i < url.Length; i++)
                     {
@@ -224,26 +190,14 @@ namespace WpfApp1
                     {
                         masini.Add(new Masini(id, make, model, price, caryear, issold, img, hp, ft));
                     }
-                }
-                
+                }               
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
             myCon.Close();
-
-            return masini;
-            
-        }
-
-        private void CarText_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void CarStack_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            
+            return masini;          
         }
 
         private void CarItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -253,8 +207,7 @@ namespace WpfApp1
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Hidden;
             gridAddCar.Visibility = Visibility.Hidden;
-
-
+            gridStatistics.Visibility = Visibility.Hidden;
             var masini = GetMasini();
             if (masini.Count > 0)
                 ListViewProducts.ItemsSource = masini;
@@ -287,6 +240,7 @@ namespace WpfApp1
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Hidden;
             gridAddCar.Visibility = Visibility.Hidden;
+            gridStatistics.Visibility = Visibility.Hidden;
 
         }
 
@@ -316,19 +270,14 @@ namespace WpfApp1
                 // update lista masini
                 masina = product.GetMasini();
                 product.Close();
-            }
-     
-           
+            }               
         }
-
-        
 
         private void ButtonAccInfo_Click(object sender, RoutedEventArgs e)
         {
             AccInfo accInfo = new AccInfo(utilizator);
             accInfo.Show();
             this.Close();
-
         }
 
         private void ButtonHome_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -338,6 +287,8 @@ namespace WpfApp1
             gridHome.Visibility = Visibility.Visible;
             gridDealerInfo.Visibility = Visibility.Hidden;
             gridAddCar.Visibility = Visibility.Hidden;
+            gridStatistics.Visibility = Visibility.Hidden;
+
         }
 
         private void infoDealearItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -347,6 +298,8 @@ namespace WpfApp1
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Visible;
             gridAddCar.Visibility = Visibility.Hidden;
+            gridStatistics.Visibility = Visibility.Hidden;
+
             dealers.Clear();
             dealrLB.Items.Clear();
             dealers  = ReadDealers();
@@ -355,6 +308,7 @@ namespace WpfApp1
                 dealrLB.Items.Add(dealer.nume +" "+ dealer.prenume);
             }
         }
+
         private void dealrLB_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             try
@@ -376,11 +330,9 @@ namespace WpfApp1
             myCon.Open();
             Utilizator delDealer = dealers.ElementAt(dealrLB.SelectedIndex);
             dealrLB.Items.Clear();
-            SqlCommand cmd = new SqlCommand();
-            
+            SqlCommand cmd = new SqlCommand();           
             try
-            {
-                
+            {              
                 cmd = new SqlCommand("DELETE FROM [Dealer] WHERE Email= @email", myCon);
                 cmd.Parameters.AddWithValue("email", delDealer.email);
                 cmd.ExecuteNonQuery();
@@ -388,7 +340,6 @@ namespace WpfApp1
                 cmd.Parameters.AddWithValue("email", delDealer.email);
                 cmd.ExecuteNonQuery();
                 ok = true;
-
             }
             catch (Exception ex)
             {
@@ -399,7 +350,6 @@ namespace WpfApp1
                 return;
             }
             myCon.Close();
-
             dealers.Clear();
             dealers = ReadDealers();
             foreach(Utilizator utilizator in dealers)
@@ -409,7 +359,6 @@ namespace WpfApp1
             if (ok)
             {
                 new MessageBoxPoni("Dealer Fired").Show();
-
             }
         }
 
@@ -426,8 +375,7 @@ namespace WpfApp1
                 {
                     dealers.Add(test);
                     dealrLB.Items.Add(test.nume + ' ' + test.prenume);
-                }
-             
+                }            
             }
             catch(Exception ex)
             {
@@ -441,9 +389,9 @@ namespace WpfApp1
         {
             gridChangeS.Visibility = Visibility.Visible;
         }
+
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {           
             SqlCommand cmd = new SqlCommand();
             bool ok = false;
             try
@@ -457,7 +405,6 @@ namespace WpfApp1
                     new MessageBoxPoni("The salary must be a number!").Show();
                     return;
                 }
-
                 Utilizator upDealer = dealers.ElementAt(dealrLB.SelectedIndex);
                 myCon.Open();
                 cmd = new SqlCommand("UPDATE [user] SET Salary=@Salary WHERE [Email]=@Email", myCon);
@@ -500,9 +447,7 @@ namespace WpfApp1
                 for(int i=0;i<masini.Count;i++)
                 {
                     if(masini[i].carPrice>=4000 && masini[i].carPrice <= 10000)
-                    {
-
-                    }
+                    {  }
                     else
                     {
                         masini.RemoveAt(i);
@@ -515,9 +460,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].carPrice >= 10000 && masini[i].carPrice <= 20000)
-                    {
-
-                    }
+                    {  }
                     else
                     {
                         masini.RemoveAt(i);
@@ -530,9 +473,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].carPrice >= 20000 && masini[i].carPrice <= 30000)
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -545,9 +486,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].carPrice >= 30000 && masini[i].carPrice <= 40000)
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -560,9 +499,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].carPrice >= 40000)
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -576,9 +513,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].FuelType.Equals("Diesel"))
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -586,15 +521,12 @@ namespace WpfApp1
                     }
                 }
             }
-
             if (ftRB2.IsChecked == true)
             {
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].FuelType.Equals("Petrol"))
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -607,9 +539,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].FuelType.Equals("Hybrid"))
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -622,9 +552,7 @@ namespace WpfApp1
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].FuelType.Equals("Electric"))
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -632,15 +560,12 @@ namespace WpfApp1
                     }
                 }
             }
-
             if (hpRB1.IsChecked == true)
             {
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].HorsePower>=75 && masini[i].HorsePower<=105)
-                    {
-
-                    }
+                    {   }
                     else
                     {
                         masini.RemoveAt(i);
@@ -648,15 +573,12 @@ namespace WpfApp1
                     }
                 }
             }
-
             if (hpRB2.IsChecked == true)
             {
                 for (int i = 0; i < masini.Count; i++)
                 {
                     if (masini[i].HorsePower > 105 && masini[i].HorsePower <= 195)
-                    {
-
-                    }
+                    { }
                     else
                     {
                         masini.RemoveAt(i);
@@ -664,7 +586,6 @@ namespace WpfApp1
                     }
                 }
             }
-
             if (hpRB3.IsChecked == true)
             {
                 for (int i = 0; i < masini.Count; i++)
@@ -692,7 +613,6 @@ namespace WpfApp1
             prRB3.IsChecked = false;
             prRB2.IsChecked = false;
             prRB1.IsChecked = false;
-
             if (masini.Count > 0)
             {
                 ListViewProducts.ItemsSource = masini;
@@ -702,18 +622,12 @@ namespace WpfApp1
             else new MessageBoxPoni("There are no car with that \n configuration!").Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void addFeature_Click(object sender, RoutedEventArgs e)
         {
             newMasina.Features.Add(featureACTB.Text);
             countFACL.Visibility = Visibility.Visible;
             countFACL.Content = Convert.ToInt32(countFACL.Content) + 1;
             featureACTB.Text = "";
-
         }
 
         private void addPhotosACB_Click(object sender, RoutedEventArgs e)
@@ -725,8 +639,7 @@ namespace WpfApp1
                 openFileDialog.InitialDirectory = @"C:\Users\Castoleru\OneDrive - Technical University of Cluj-Napoca\Desktop\cars";
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                
+                Console.WriteLine(ex.Message);                
             }
             if (openFileDialog.ShowDialog() == true)
             {
@@ -755,20 +668,16 @@ namespace WpfApp1
                     Console.WriteLine(ex.Message);
                     return;
                 }
-
             }
-
         }
         private bool TextsCheck()
         {
             // true - at least one box is empty
             // false - no box is empty
             return (Convert.ToInt32(countFACL.Content) == 0 && Convert.ToInt32(countPACL.Content) == 0 && makeACTB.Text == "" && modelACTB.Text == "" && priceACTB.Text == "" && yearACTB.Text == "" && horsePowerACTB.Text == "" && FuelTypeACTB.Text == "" && colorACTB.Text == "" && Co2EACTB.Text == "" && parkingSpotACTB.Text == "" && cosumptionACTB.Text == "" && tractionACTB.Text == "" && CilindricalACTB.Text == "");
-
         }
         private void addCarACB_Click(object sender, RoutedEventArgs e)
         {
-
             if (TextsCheck() == true)
             {
                 new MessageBoxPoni("All boxex must be completed \n" +
@@ -776,7 +685,6 @@ namespace WpfApp1
             }
             else
             {
-
                 string feautersFormat = "";
                 foreach (string feat in newMasina.Features)
                 {
@@ -787,14 +695,13 @@ namespace WpfApp1
                 {
                     urlFormat = url + " " + urlFormat;
                 }
-
                 newMasina.make = makeACTB.Text;
                 newMasina.model = modelACTB.Text;
                 newMasina.isSold = isSoldACCB.IsChecked == true;
                 newMasina.FuelType = FuelTypeACTB.Text;
                 try 
                 { 
-                newMasina.carPrice = Convert.ToDouble(priceACTB.Text);
+                  newMasina.carPrice = Convert.ToDouble(priceACTB.Text);
                 }catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
@@ -850,7 +757,6 @@ namespace WpfApp1
                     new MessageBoxPoni("The Horse Power \n is an natural number").Show();
                     return;
                 }
-               
                 SqlCommand cmd = new SqlCommand();
                 myCon.Open();
                 try
@@ -871,11 +777,8 @@ namespace WpfApp1
                     dataAdapter.Fill(dataset, "[Car]");
                     foreach (DataRow dr in dataset.Tables["[Car]"].Rows)
                     {
-
                         carID = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
-
                     }
-
                     cmd = new SqlCommand("INSERT INTO [SpecificationCar] (CarId,Color,Co2E,ParkingSpot,Consumption,Traction,CilindricalCap,Features) VALUES (@CarId,@Color,@Co2E,@ParkingSpot,@Consumption,@Traction,@CilindricalCap,@Features)  ", myCon);
                     cmd.Parameters.AddWithValue("@CarId", carID);
                     cmd.Parameters.AddWithValue("@Color", newMasina.color);
@@ -890,7 +793,6 @@ namespace WpfApp1
                 {
                     Console.WriteLine(ex.Message);
                 }
-
                     newMasina = new Masini();
                     featureACTB.Text = "";
                     makeACTB.Text = "";
@@ -910,9 +812,7 @@ namespace WpfApp1
                     countPACL.Content = "0";
                     countFACL.Visibility = Visibility.Hidden;
                     countPACL.Visibility = Visibility.Hidden;
-
-
-                myCon.Close();
+              myCon.Close();
             }
 
         }
@@ -924,6 +824,8 @@ namespace WpfApp1
             gridHome.Visibility = Visibility.Hidden;
             gridDealerInfo.Visibility = Visibility.Hidden;
             gridAddCar.Visibility = Visibility.Visible;
+            gridStatistics.Visibility = Visibility.Hidden;
+
             newMasina = new Masini();
             featureACTB.Text = "";
             makeACTB.Text = "";
@@ -943,6 +845,217 @@ namespace WpfApp1
             countPACL.Content = "0";
             countFACL.Visibility = Visibility.Hidden;
             countPACL.Visibility = Visibility.Hidden;
+        }
+
+        private List<Masini> GetSaledMasini()
+        {
+            List<Masini> masini = new List<Masini>();
+            myCon.Open();
+            try
+            {
+                DataSet dataset = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM [Car]", myCon);
+                dataAdapter.Fill(dataset, "[Car]");
+                foreach (DataRow dr in dataset.Tables["[Car]"].Rows)
+                {
+                    int id = Convert.ToInt32(dr.ItemArray.GetValue(0).ToString());
+                    String make = dr.ItemArray.GetValue(1).ToString();
+                    String model = dr.ItemArray.GetValue(2).ToString();
+                    double price = Convert.ToDouble(dr.ItemArray.GetValue(3).ToString());
+                    int caryear = Convert.ToInt32(dr.ItemArray.GetValue(4).ToString());
+                    bool issold = Convert.ToBoolean(dr.ItemArray.GetValue(5).ToString());
+                    String[] url = dr.ItemArray.GetValue(6).ToString().Split(' ');
+                    int hp = Convert.ToInt32(dr.ItemArray.GetValue(7).ToString());
+                    String ft = dr.ItemArray.GetValue(8).ToString();
+                    List<String> img = new List<string>();
+                    for (int i = 0; i < url.Length; i++)
+                    {
+                        img.Add(url[i]);
+                    }
+                    if (issold == true)
+                    {
+                        masini.Add(new Masini(id, make, model, price, caryear, issold, img, hp, ft));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            myCon.Close();
+            return masini;
+        }
+
+        private void StatisticsItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            gridCarsImage.Visibility = Visibility.Hidden;
+            gridParking.Visibility = Visibility.Hidden;
+            gridHome.Visibility = Visibility.Hidden;
+            gridDealerInfo.Visibility = Visibility.Hidden;
+            gridAddCar.Visibility = Visibility.Hidden;
+            gridStatistics.Visibility = Visibility.Visible;
+            int [] countP = new int[5] { 0,0,0,0,0 };
+            int[] countF = new int[4] { 0, 0, 0, 0 };
+            int[] countH = new int[3] { 0, 0, 0 };
+
+            List<Masini> saledMasini = GetSaledMasini();
+            foreach(Masini masini in saledMasini)
+            {
+                if(masini.carPrice >= 4000 && masini.carPrice <= 10000)
+                {
+                    countP[0]++;
+                }
+                else if (masini.carPrice > 10000 && masini.carPrice <= 20000)
+                {
+                    countP[1]++;
+                }
+                else if (masini.carPrice > 20000 && masini.carPrice <= 30000)
+                {
+                    countP[2]++;
+                }
+                else if (masini.carPrice > 30000 && masini.carPrice <= 40000)
+                {
+                    countP[3]++;
+                }
+                else if (masini.carPrice > 40000 )
+                {
+                    countP[4]++;
+                }
+
+                if( masini.FuelType == "Petrol")
+                {
+                    countF[0]++;
+                }
+                else if (masini.FuelType == "Diesel")
+                {
+                    countF[1]++;
+                }
+                else if (masini.FuelType == "Hybrid")
+                {
+                    countF[2]++;
+                }
+                else if (masini.FuelType == "Electric")
+                {
+                    countF[3]++;
+                }
+
+                if(masini.HorsePower > 75 && masini.HorsePower <= 105)
+                {
+                    countH[0]++;
+                }
+                else if (masini.HorsePower > 105 && masini.HorsePower <= 195)
+                {
+                    countH[1]++;
+                }
+                else if (masini.HorsePower > 195)
+                {
+                    countH[2]++;
+                }
+            }
+            Price410.Text = ""+countP[0];
+            Price1020.Text = "" + countP[1];
+            Price2030.Text = "" + countP[2];
+            Price3040.Text = "" + countP[3];
+            Price40B.Text = "" + countP[4];
+            FuelTypeP.Text = "" + countF[0];
+            FuelTypeD.Text = "" + countF[1];
+            FuelTypeH.Text = "" + countF[2];
+            FuelTypeE.Text = "" + countF[3];
+            Hp75.Text = "" + countH[0];
+            Hp105.Text = "" + countH[1];
+            Hp195.Text = "" + countH[2];
+
+            int maximus = 0;
+            for(int i=1;i<5;i++)
+            {
+                if (countP[i] > countP[maximus])
+                    maximus = i;
+            }
+            switch(maximus)
+            {
+                case 0:
+                    {
+                        BestPrice.Text = "4.000 - 10.000";
+                    }
+                    break;
+                case 1:
+                    {
+                        BestPrice.Text = "10.000 - 20.000";
+                    }
+                    break;
+                case 2:
+                    {
+                        BestPrice.Text = "20.000 - 30.000";
+                    }
+                    break;
+                case 3:
+                    {
+                        BestPrice.Text = "30.000 - 40.000";
+                    }
+                    break;
+                case 4:
+                    {
+                        BestPrice.Text = " > 40.000";
+                    }
+                    break;
+            }
+            maximus = 0;
+
+            for (int i = 1; i < 4; i++)
+            {
+                if (countF[i] > countF[maximus])
+                    maximus = i;
+            }
+            switch (maximus)
+            {
+                case 0:
+                    {
+                        BestFuel.Text = "Petrol";
+                    }
+                    break;
+                case 1:
+                    {
+                        BestFuel.Text = "Disel";
+                    }
+                    break;
+                case 2:
+                    {
+                        BestFuel.Text = "Hybrid";
+                    }
+                    break;
+                case 3:
+                    {
+                        BestFuel.Text = "Electric";
+                    }
+                    break;
+            }
+
+            maximus = 0;
+
+            for (int i = 1; i < 3; i++)
+            {
+                if (countH[i] > countH[maximus])
+                    maximus = i;
+            }
+            switch (maximus)
+            {
+                case 0:
+                    {
+                        BestHp.Text = "75 - 105";
+                    }
+                    break;
+                case 1:
+                    {
+                        BestHp.Text = "105 - 195";
+                    }
+                    break;
+                case 2:
+                    {
+                        BestHp.Text = "> 95";
+                    }
+                    break;
+            }
+
         }
     }
 }

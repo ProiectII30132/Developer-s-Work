@@ -87,7 +87,6 @@ namespace WpfApp1
             if (products.Count > 0)
                 PhotosList.ItemsSource = products;
 
-
             try
             {
                 
@@ -100,8 +99,7 @@ namespace WpfApp1
             }
             catch(Exception ex)
             {
-                                    Console.WriteLine(ex.Message);
-
+                Console.WriteLine(ex.Message);
             }
             myCon.Close();
         }
@@ -148,8 +146,6 @@ namespace WpfApp1
                 BigImg.Source = new BitmapImage(uriSource);
                 BigImg.Width = 400;
                 BigImg.Height = 400;
-
-
             }
             catch (Exception ex)
             {
@@ -173,6 +169,7 @@ namespace WpfApp1
         {
             return this.masina;
         }
+ 
         public Utilizator GetUtilizator()
         {
             return this.utilizator;

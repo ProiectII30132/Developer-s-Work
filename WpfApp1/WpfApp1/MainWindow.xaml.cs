@@ -24,8 +24,6 @@ namespace WpfApp1
 public partial class MainWindow : Window
 {
     SqlConnection myCon = new SqlConnection();
-
-
     public MainWindow()
     {
         InitializeComponent();
@@ -40,16 +38,15 @@ public partial class MainWindow : Window
                     passwordPasswoerdBox.Password = emailsiparola[1];
                 }
                 streamReader.Close();
-
             }
             catch (IOException ex)
             {
                 Console.WriteLine(ex.Message);
             }
-        }
+    }
 
    private void loginButton_Click(object sender, RoutedEventArgs e)
-      {
+   {
 
         List<Utilizator> utilizatori = new List<Utilizator>();
         string email = emailTextBox.Text;
@@ -87,7 +84,7 @@ public partial class MainWindow : Window
         myCon.Close();
         bool merge = false;
         foreach(Utilizator utilizator in utilizatori)
-            {
+        {
                 if(utilizator.email == email && utilizator.pass==pass)
                 {
                     UserMenu userMenu = new UserMenu(utilizator);
@@ -95,9 +92,9 @@ public partial class MainWindow : Window
                     this.Close();
                     merge = true;
                 }
-            }
+        }
             
-         if(merge == false)
+            if(merge == false)
             {
                 new MessageBoxPoni("Parola gresita").Show();
                 emailTextBox.Text = "";

@@ -9,19 +9,15 @@
         Icon="Assests\Logo(1).ico"
         Title="Login" Height="475" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Triggers>
-
         <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimation From="0" To="1" Duration="0:0:1" Storyboard.TargetProperty="Opacity">
-
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
-
     </Window.Triggers>
-
     <Grid>
         <Rectangle Height="280" VerticalAlignment="Top">
             <Rectangle.Fill>
@@ -29,7 +25,6 @@
                     <GradientStop Color="#C5E1A5"/>
                     <GradientStop Color="#33691E" Offset="1"/>
                     <GradientStop Color="#8BC34A" Offset="0.5"/>
-
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -47,15 +42,12 @@
             </StackPanel>
             <TextBlock x:Name="fpTextBlock" PreviewMouseUp="fpTextBlock_PreviewMouseUp" Text="Forgot password?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,40" Foreground="Gray" Cursor="Hand"/>
             <CheckBox x:Name="Remember_me"  Content="Remember me" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,40" Foreground="Gray" Cursor="Hand"/>
-
         </Grid>
         <Button x:Name="loginButton" Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="97,0,103,59" Content="Login" Click="loginButton_Click"/>
         <Ellipse Fill="DarkRed" Height="10" Width="10" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,10" PreviewMouseLeftButtonUp="Ellipse_PreviewMouseLeftButtonUp" >
-            
             <Ellipse.Effect>
                 <DropShadowEffect Direction="0" ShadowDepth="0.1"/>
             </Ellipse.Effect>
-
         </Ellipse>
     </Grid>
 </Window>

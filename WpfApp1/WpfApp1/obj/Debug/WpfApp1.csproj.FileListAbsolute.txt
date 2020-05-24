@@ -217,3 +217,7 @@ E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\proiect_repo\Developer-s-Wor
 D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\ChangePass.g.cs
 D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\obj\Debug\ChangePass.baml
 D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\De.TorstenMandelkow.MetroChart.dll
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\Syncfusion.Licensing.dll
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\LiveCharts.Wpf.dll
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\LiveCharts.Wpf.pdb
+D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\bin\Debug\LiveCharts.Wpf.xml
