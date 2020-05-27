@@ -47,6 +47,10 @@ namespace WpfApp1
 
         }
 
+        public Utilizator()
+        {
+
+        }
 
 
     }

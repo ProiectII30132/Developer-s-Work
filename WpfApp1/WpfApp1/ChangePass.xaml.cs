@@ -74,6 +74,22 @@ namespace WpfApp1
                     cmd.Parameters.AddWithValue("@Password", newPass);
                     cmd.ExecuteNonQuery();
                     utilizator.pass = newPass;
+                    
+                    if(utilizator.isAdmin == 1)
+                    {
+                        cmd = new SqlCommand("UPDATE [Admin] SET [Password]=@Password WHERE [Email]=@Email", myCon);
+                        cmd.Parameters.AddWithValue("@Email", utilizator.email);
+                        cmd.Parameters.AddWithValue("@Password", newPass);
+                        cmd.ExecuteNonQuery();
+                    } 
+                    else
+                    {
+                        cmd = new SqlCommand("UPDATE [Dealer] SET [Password]=@Password WHERE [Email]=@Email", myCon);
+                        cmd.Parameters.AddWithValue("@Email", utilizator.email);
+                        cmd.Parameters.AddWithValue("@Password", newPass);
+                        cmd.ExecuteNonQuery();
+                    }
+
                 }
                 else
                 {

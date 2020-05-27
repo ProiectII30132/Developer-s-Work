@@ -32,6 +32,7 @@ namespace WpfApp1
         private Utilizator utilizator;
         private List<Utilizator> dealers= new List<Utilizator>();
         private Masini newMasina =new Masini();
+        private int countPromoteClick = 0;
         public UserMenu(Utilizator utilizator)
         {
             InitializeComponent();
@@ -303,9 +304,33 @@ namespace WpfApp1
             dealers.Clear();
             dealrLB.Items.Clear();
             dealers  = ReadDealers();
+            int maximus = dealers.ElementAt(0).salesNumber;
+            int minimum = dealers.ElementAt(0).salesNumber;
+            
+            Brush myBrush = Brushes.White;
             foreach (Utilizator dealer in dealers)
             {
-                dealrLB.Items.Add(dealer.nume +" "+ dealer.prenume);
+                maximus = dealer.salesNumber > maximus ? dealer.salesNumber : maximus;
+                minimum = dealer.salesNumber < minimum ? dealer.salesNumber : minimum;
+
+            }
+            foreach (Utilizator dealer in dealers)
+            {
+                bool ok = false;
+                if(dealer.salesNumber == maximus)
+                {
+                    dealrLB.Items.Add("Best: "+dealer.nume + " " + dealer.prenume);
+                    ok = true;
+                }
+                if (dealer.salesNumber == minimum)
+                {
+                    dealrLB.Items.Add("Worst: " + dealer.nume + " " + dealer.prenume);
+                    ok = true;
+                }
+                if(ok == false)
+                {
+                    dealrLB.Items.Add(dealer.nume + " " + dealer.prenume);
+                }
             }
         }
 
@@ -328,7 +353,17 @@ namespace WpfApp1
         {
             bool ok = true;
             myCon.Open();
-            Utilizator delDealer = dealers.ElementAt(dealrLB.SelectedIndex);
+            Utilizator delDealer = new Utilizator();
+            try
+            {
+                delDealer = dealers.ElementAt(dealrLB.SelectedIndex);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                new MessageBoxPoni("Dealer not selected").Show();
+                myCon.Close();
+                return;
+            }
             dealrLB.Items.Clear();
             SqlCommand cmd = new SqlCommand();           
             try
@@ -375,19 +410,29 @@ namespace WpfApp1
                 {
                     dealers.Add(test);
                     dealrLB.Items.Add(test.nume + ' ' + test.prenume);
+                    new MessageBoxPoni("Dealer Aded").Show();
                 }            
             }
             catch(Exception ex)
             {
-                new MessageBoxPoni("Dealer Aded").Show();
                 Console.WriteLine(ex.Message);
                 return;
             }
         }
 
+        
         private void promoteDealerBt_Click(object sender, RoutedEventArgs e)
         {
-            gridChangeS.Visibility = Visibility.Visible;
+            countPromoteClick++;
+            if (countPromoteClick % 2 == 1)
+            {
+                gridChangeS.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                gridChangeS.Visibility = Visibility.Hidden;
+            }
+
         }
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
@@ -405,7 +450,17 @@ namespace WpfApp1
                     new MessageBoxPoni("The salary must be a number!").Show();
                     return;
                 }
-                Utilizator upDealer = dealers.ElementAt(dealrLB.SelectedIndex);
+                Utilizator upDealer = new Utilizator();
+                try
+                {
+                    upDealer = dealers.ElementAt(dealrLB.SelectedIndex);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    new MessageBoxPoni("Dealer not selected!").Show();
+                    return;
+                }
                 myCon.Open();
                 cmd = new SqlCommand("UPDATE [user] SET Salary=@Salary WHERE [Email]=@Email", myCon);
                 cmd.Parameters.AddWithValue("@Email",upDealer.email);
@@ -415,7 +470,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                new MessageBoxPoni("Dealer not selected").Show();
+                new MessageBoxPoni("DB error!").Show();
                 ok = false;
                 Console.WriteLine(ex.Message);
                 myCon.Close();
@@ -438,7 +493,6 @@ namespace WpfApp1
             }
         }
     
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             List<Masini> masini = GetMasini();
@@ -814,7 +868,6 @@ namespace WpfApp1
                     countPACL.Visibility = Visibility.Hidden;
               myCon.Close();
             }
-
         }
 
         private void addCars_Item_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -825,7 +878,6 @@ namespace WpfApp1
             gridDealerInfo.Visibility = Visibility.Hidden;
             gridAddCar.Visibility = Visibility.Visible;
             gridStatistics.Visibility = Visibility.Hidden;
-
             newMasina = new Masini();
             featureACTB.Text = "";
             makeACTB.Text = "";
@@ -897,7 +949,6 @@ namespace WpfApp1
             int [] countP = new int[5] { 0,0,0,0,0 };
             int[] countF = new int[4] { 0, 0, 0, 0 };
             int[] countH = new int[3] { 0, 0, 0 };
-
             List<Masini> saledMasini = GetSaledMasini();
             foreach(Masini masini in saledMasini)
             {
@@ -964,7 +1015,6 @@ namespace WpfApp1
             Hp75.Text = "" + countH[0];
             Hp105.Text = "" + countH[1];
             Hp195.Text = "" + countH[2];
-
             int maximus = 0;
             for(int i=1;i<5;i++)
             {
@@ -1000,7 +1050,6 @@ namespace WpfApp1
                     break;
             }
             maximus = 0;
-
             for (int i = 1; i < 4; i++)
             {
                 if (countF[i] > countF[maximus])
@@ -1029,9 +1078,7 @@ namespace WpfApp1
                     }
                     break;
             }
-
             maximus = 0;
-
             for (int i = 1; i < 3; i++)
             {
                 if (countH[i] > countH[maximus])
@@ -1055,7 +1102,6 @@ namespace WpfApp1
                     }
                     break;
             }
-
         }
     }
 }
