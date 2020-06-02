@@ -21,7 +21,7 @@ namespace WpfApp1
     public partial class SignUp : Window
     {
         private SqlCommand cmd;
-        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\Proiect_varianta_finala\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
 
 
         Utilizator utilizator;
@@ -40,44 +40,107 @@ namespace WpfApp1
             }
             try
             {
-                try
+             
+                int emailok = 1, firstletterfn = 1, firstletterln = 1, lnok = 1, fnok = 1,salaryok=1; 
+
+                string[] emailstr = emailTB.Text.Split(new char[] { '@', '.' }, StringSplitOptions.RemoveEmptyEntries);
+                if (!(emailstr[1]=="gmail" && emailstr[1]=="yahoo") && !(emailstr[2]=="com"))
                 {
-                    double salaryTest = Convert.ToDouble(SallaryTB.Text);
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    new MessageBoxPoni("The salary is a number");
-                    return;
+                    emailok = 0;
+                    //new MessageBoxPoni("Wrong email format!").Show();
                 }
 
-                myCon.Open();
-                cmd = new SqlCommand("INSERT INTO [user] (Email,[Password],Salary) VALUES (@Email,@Password,@Salary) ", myCon);
-                cmd.Parameters.AddWithValue("@Email", emailTB.Text);
-                cmd.Parameters.AddWithValue("@Password", PassP.Password);
-                cmd.Parameters.AddWithValue("@Salary", SallaryTB.Text);
-                cmd.ExecuteNonQuery();
+                string firstname = FirstNameTB.Text;
+                string lastname = LastNameTB.Text;
 
-                cmd = new SqlCommand("INSERT INTO [Dealer] (FirstName,LastName,Email,[Password]) VALUES (@FirstName,@LastName,@email,@Password) ", myCon);
-                cmd.Parameters.AddWithValue("@FirstName", FirstNameTB.Text);
-                cmd.Parameters.AddWithValue("@LastName", LastNameTB.Text);
-                cmd.Parameters.AddWithValue("@Email", emailTB.Text);
-                cmd.Parameters.AddWithValue("@Password", PassP.Password);
-                cmd.ExecuteNonQuery();
-                double salary = Convert.ToDouble(SallaryTB.Text);
-                utilizator = new Utilizator(emailTB.Text, PassP.Password, 0,salary);
-                utilizator.nume = LastNameTB.Text;
-                utilizator.prenume = FirstNameTB.Text;
-                utilizator.salesNumber = 0;
-                
+                if(firstname[0]>='A' && firstname[0] <= 'Z')
+                {
+                    for(int i = 1; i < firstname.Length; i++)
+                    {
+                        if (!(firstname[i]>='a' && firstname[i]<='z'))
+                        {
+                            fnok = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    firstletterfn = 0;
+                }
+
+                if (lastname[0] >= 'A' && lastname[0] <= 'Z')
+                {
+                    for (int i = 1; i < lastname.Length; i++)
+                    {
+                        if (!(lastname[i] >= 'a' && lastname[i] <= 'z'))
+                        {
+                            lnok = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    firstletterln = 0;
+                }
+
+                string s = SallaryTB.Text;
+                if (s[0] == '0')// Daca salariul incepe cu cifra 0
+                {
+                    salaryok = 0; 
+                }
+
+                for(int i = 0; i < s.Length; i++)
+                {
+                    if (!(s[i]>='1' && s[i]<='9'))
+                    {
+                        salaryok = 0;
+                    }
+                }
+
+                if (emailok==1 && firstletterfn==1 && firstletterln==1 && lnok==1 && fnok==1 && salaryok==1)
+                {
+                    myCon.Open();
+                    cmd = new SqlCommand("INSERT INTO [user] (Email,[Password],Salary) VALUES (@Email,@Password,@Salary) ", myCon);
+                    cmd.Parameters.AddWithValue("@Email", emailTB.Text);
+                    cmd.Parameters.AddWithValue("@Password", PassP.Password);
+                    cmd.Parameters.AddWithValue("@Salary", SallaryTB.Text);
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new SqlCommand("INSERT INTO [Dealer] (FirstName,LastName,Email,[Password]) VALUES (@FirstName,@LastName,@email,@Password) ", myCon);
+                    cmd.Parameters.AddWithValue("@FirstName", FirstNameTB.Text);
+                    cmd.Parameters.AddWithValue("@LastName", LastNameTB.Text);
+                    cmd.Parameters.AddWithValue("@Email", emailTB.Text);
+                    cmd.Parameters.AddWithValue("@Password", PassP.Password);
+                    cmd.ExecuteNonQuery();
+                    double salary = Convert.ToDouble(SallaryTB.Text);
+                    utilizator = new Utilizator(emailTB.Text, PassP.Password, 0, salary);
+                    utilizator.nume = LastNameTB.Text;
+                    utilizator.prenume = FirstNameTB.Text;
+                    utilizator.salesNumber = 0;
+                }
+                else
+                {
+                    new MessageBoxPoni("Email,FirstName,LastName or Salary fields might have a wrong format!").Show();
+                    emailTB.Text = ""; PassP.Password = ""; FirstNameTB.Text = ""; LastNameTB.Text = ""; SallaryTB.Text= "";
+                }
 
             }
-            catch (Exception ex)
+            catch (IndexOutOfRangeException ex)
             {
-                new MessageBoxPoni("Data Base Error").Show();
+                new MessageBoxPoni("Wrong email format!  Hint: Use example@gmail.com \n or example@yahoo.com").Show();
                 Console.WriteLine(ex.Message);
+                emailTB.Text = ""; PassP.Password = ""; FirstNameTB.Text = ""; LastNameTB.Text = ""; SallaryTB.Text = "";
                 myCon.Close();
                 return;
 
+            }
+            catch(SqlException ex)
+            {
+                new MessageBoxPoni("No connection to the database!").Show();
+                Console.WriteLine(ex.Message);
+                myCon.Close();
+                emailTB.Text = ""; PassP.Password = ""; FirstNameTB.Text = ""; LastNameTB.Text = ""; SallaryTB.Text = "";
+                return;
             }
             myCon.Close();
             this.Hide();

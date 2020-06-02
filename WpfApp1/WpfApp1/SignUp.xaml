@@ -54,7 +54,7 @@
             </StackPanel>
 
         </Grid>
-        <Button Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,100,75.214" Content="Sing Up" Click="Button_Click"/>
+        <Button Width="150" Background="#8BC34A" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,100,75.214" Content="Sign Up" Click="Button_Click"/>
         
         <Ellipse Fill="DarkRed" Height="10" Width="10" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10,10" PreviewMouseLeftButtonUp="Ellipse_PreviewMouseLeftButtonUp" >
 

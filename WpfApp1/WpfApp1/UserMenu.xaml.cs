@@ -28,7 +28,7 @@ namespace WpfApp1
     public partial class UserMenu : Window
     {
         // private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
-        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        private SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\Proiect_varianta_finala\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
         private Utilizator utilizator;
         private List<Utilizator> dealers= new List<Utilizator>();
         private Masini newMasina =new Masini();
@@ -788,7 +788,7 @@ namespace WpfApp1
                 }catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    new MessageBoxPoni("The car consumption \n is an number").Show();
+                    new MessageBoxPoni("The car consumption \n is a number").Show();
                     return;
                 }
                 newMasina.Traction = tractionACTB.Text;
@@ -799,7 +799,7 @@ namespace WpfApp1
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    new MessageBoxPoni("The Cilindrical capcacity \n is an natural number").Show();
+                    new MessageBoxPoni("The Cilindrical capcacity \n is a natural number").Show();
                     return;
                 }
                 try
@@ -808,7 +808,7 @@ namespace WpfApp1
                 }catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    new MessageBoxPoni("The Horse Power \n is an natural number").Show();
+                    new MessageBoxPoni("The Horse Power \n is a natural number").Show();
                     return;
                 }
                 SqlCommand cmd = new SqlCommand();

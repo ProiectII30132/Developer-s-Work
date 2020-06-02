@@ -23,8 +23,8 @@ namespace WpfApp1
 /// </summary>
 public partial class MainWindow : Window
 {
-    SqlConnection myCon = new SqlConnection();
-    public MainWindow()
+        SqlConnection myCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\Proiect_varianta_finala\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True");
+        public MainWindow()
     {
         InitializeComponent();
             try
@@ -50,10 +50,9 @@ public partial class MainWindow : Window
 
         List<Utilizator> utilizatori = new List<Utilizator>();
         string email = emailTextBox.Text;
-        string pass = passwordPasswoerdBox.Password.ToString();
-       // myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
-       // myCon.Open();
-       myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+            string pass = passwordPasswoerdBox.Password.ToString();
+            //myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+            myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\Proiect_varianta_finala\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
             myCon.Open();
 
             DataSet dataset = new DataSet();

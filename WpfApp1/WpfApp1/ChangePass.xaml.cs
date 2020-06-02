@@ -63,7 +63,7 @@ namespace WpfApp1
             string newPass = newPassTB.Password;
             
             List<Utilizator> utilizatori = new List<Utilizator>();
-            myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ii-proj\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
+            myCon.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\FACULTA\AN3_SEM2\INFORMATICA INDUSTRIALA\Proiect\Proiect_varianta_finala\Developer-s-Work\WpfApp1\WpfApp1\PCDB.mdf;Integrated Security=True";
             myCon.Open();
             if (oldPass == utilizator.pass)
             {
